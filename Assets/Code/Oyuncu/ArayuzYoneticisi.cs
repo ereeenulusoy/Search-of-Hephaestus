@@ -1,27 +1,34 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; 
+using TMPro;
 
 public class ArayuzYoneticisi : MonoBehaviour
 {
-    [Header("Kontrol Edilecek Paneller")]
+    [Header("Ana Paneller")]
     public GameObject anaGelisimPaneli;
+    public GameObject ozelliklerPaneli;
+    public GameObject silahGelistirmePaneli;
 
-    [Header("UI Referanslarý")]
+    [Header("Ana Geliþim Butonlarý")]
+    public Button ozelliklerAcmaButonu;
+    public Button silahGelistirmeAcmaButonu; // Bu buton artýk hep aktif olacak
+
+    [Header("Silah Geliþtirme Detaylarý")]
+    public Image lazerSilahiIkon; // Ýkinci paneldeki silahýn resmi
     public TextMeshProUGUI paraGostergeText;
-    public Button atakYukseltButonu;
+    public Button[] lazerGelistirmeButonlari = new Button[4];
 
-  
-    public TextMeshProUGUI atakButonText;
+    [Header("Görsel Ayarlar")]
+    public Color ogeKilitliRenk = new Color(0.5f, 0.5f, 0.5f, 0.7f);
+    public Color satinAlinmisRenk = Color.black;
 
-    [Header("Yükseltme Ayarlarý")]
-    public int atakYukseltmeMaliyeti = 50;
-
-
-    public Color satinAlinmisYaziRengi = Color.green;
+    [Header("Geliþtirme Maliyetleri")]
+    public int[] lazerGelistirmeMaliyetleri = new int[4] { 10, 20, 30, 40 };
 
     void Start()
     {
+        ozelliklerPaneli.SetActive(false);
+        silahGelistirmePaneli.SetActive(false);
         UI_Guncelle();
     }
 
@@ -31,33 +38,89 @@ public class ArayuzYoneticisi : MonoBehaviour
         {
             bool panelAcikMi = !anaGelisimPaneli.activeSelf;
             anaGelisimPaneli.SetActive(panelAcikMi);
-            if (panelAcikMi) UI_Guncelle();
+            if (panelAcikMi) AnaGelisimPaneliniAc();
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if (!OyuncuKaynaklari.instance.lazerBoomSahipMi)
+            {
+                OyuncuKaynaklari.instance.lazerBoomSahipMi = true;
+                Debug.Log("LazerBoom yerden alýndý!");
+                UI_Guncelle();
+            }
         }
     }
 
     public void UI_Guncelle()
     {
+        // ÖNEMLÝ DÜZELTME: Ana menüdeki butonu kontrol eden satýr buradan kaldýrýldý.
+        // O buton artýk her zaman Unity'nin kendi ayarlarýndan aktif olacak.
+
+        // --- SADECE ÝKÝNCÝ PANELÝN ÝÇÝNÝ GÜNCELLE ---
+        bool silahaSahipMi = OyuncuKaynaklari.instance.lazerBoomSahipMi;
+
+        // Ýkinci paneldeki silah ikonunun rengini ayarla
+        lazerSilahiIkon.color = silahaSahipMi ? Color.white : ogeKilitliRenk;
+
+        // Para göstergesini güncelle
         paraGostergeText.text = "Para: " + OyuncuKaynaklari.instance.para;
 
-        if (OyuncuKaynaklari.instance.lazerBoomAtakGuncellemesiAlindi)
+        // Dört geliþtirme butonunu güncelle
+        for (int i = 0; i < lazerGelistirmeButonlari.Length; i++)
         {
-            atakYukseltButonu.interactable = false; 
+            if (lazerGelistirmeButonlari[i] == null) continue;
 
+            // Geliþtirme butonlarý, SADECE silaha sahipsek aktif olabilir.
+            if (!silahaSahipMi)
+            {
+                lazerGelistirmeButonlari[i].interactable = false;
+                continue; // Silah yoksa aþaðýdaki kontrollere hiç girme
+            }
 
-            atakButonText.color = satinAlinmisYaziRengi;
-        }
-        else
-        {
-            atakYukseltButonu.interactable = (OyuncuKaynaklari.instance.para >= atakYukseltmeMaliyeti);
+            // Silah varsa, diðer kontrolleri yap
+            if (OyuncuKaynaklari.instance.lazerBoomGelistirmeleriAlindi[i])
+            {
+                lazerGelistirmeButonlari[i].interactable = false;
+                lazerGelistirmeButonlari[i].GetComponent<Image>().color = satinAlinmisRenk;
+            }
+            else
+            {
+                bool parasiYetiyor = OyuncuKaynaklari.instance.para >= lazerGelistirmeMaliyetleri[i];
+                lazerGelistirmeButonlari[i].interactable = parasiYetiyor;
+                lazerGelistirmeButonlari[i].GetComponent<Image>().color = Color.white;
+            }
         }
     }
 
-    public void AtakYukseltSatinAl()
+    // --- PANEL GEÇÝÞ VE SATIN ALMA METOTLARI ---
+    public void OzelliklerPaneliniAc() 
+    { 
+        anaGelisimPaneli.SetActive(false);
+        ozelliklerPaneli.SetActive(true);
+    }
+
+    public void SilahGelistirmePaneliniAc()
     {
-        if (OyuncuKaynaklari.instance.ParaHarca(atakYukseltmeMaliyeti))
+        anaGelisimPaneli.SetActive(false);
+        silahGelistirmePaneli.SetActive(true);
+        UI_Guncelle();
+    }
+
+    public void AnaGelisimPaneliniAc()
+    {
+        anaGelisimPaneli.SetActive(true);
+        ozelliklerPaneli.SetActive(false);
+        silahGelistirmePaneli.SetActive(false);
+        UI_Guncelle();
+    }
+
+    public void GelistirmeSatinAl(int gelistirmeIndex)
+    {
+        int maliyet = lazerGelistirmeMaliyetleri[gelistirmeIndex];
+        if (OyuncuKaynaklari.instance.ParaHarca(maliyet))
         {
-            OyuncuKaynaklari.instance.lazerBoomAtakGuncellemesiAlindi = true;
-            Debug.Log("LazerBoom Atak Yükseltmesi baþarýyla satýn alýndý!");
+            OyuncuKaynaklari.instance.lazerBoomGelistirmeleriAlindi[gelistirmeIndex] = true;
             UI_Guncelle();
         }
     }
