@@ -1,13 +1,13 @@
 using UnityEngine;
-using UnityEngine.UI; // Image referansý için ÞART!
-// Artýk using UnityEngine.Video; satýrýna ÝHTÝYACIMIZ YOK!
+using UnityEngine.UI;
 using TMPro;
 
 public class SecimPaneliKontrol : MonoBehaviour
 {
     [Header("Panel Referanslarý")]
     public GameObject secimPaneli;
-    // VideoOynatici referansý SÝLÝNDÝ!
+    public Animator animasyonluArkaPlanAnimator;
+    public CanvasGroup secenekGrubuCanvasGroup;
 
     [Header("Seçenek Elemanlarý")]
     public TextMeshProUGUI secim1Text;
@@ -15,10 +15,15 @@ public class SecimPaneliKontrol : MonoBehaviour
     public Image secim1GorselAlani;
     public Image secim2GorselAlani;
 
-    // --- Ýtem Havuzu ---
+    // --- Ýtem Havuzu (Türkçe Karakterler Fonta Uygun Hale Getirildi) ---
     private string[] olasiItemler = new string[]
     {
-        "Ekstra Can", "Hýzlý Koþma", "Çift Zýplama", "Güçlü Mermi", "Kalkan", "Hýzlý Ateþ Etme"
+        "Ekstra Can",
+        "Hizli Kosma",
+        "Cift Ziplama",
+        "Guclu Mermi",
+        "Kalkan",
+        "Hizli Ates Etme"
     };
     private string sunulanItem1;
     private string sunulanItem2;
@@ -34,13 +39,21 @@ public class SecimPaneliKontrol : MonoBehaviour
         {
             if (!secimPaneli.activeSelf)
             {
-                YeniSecenekleriBelirle();
-
-                // Sadece paneli açýyoruz. Ýçindeki Animator otomatik baþlayacak.
                 secimPaneli.SetActive(true);
-                // videoOynatici.Stop/Play satýrlarý SÝLÝNDÝ!
+                secenekGrubuCanvasGroup.alpha = 0;
+                secenekGrubuCanvasGroup.interactable = false;
+                animasyonluArkaPlanAnimator.Play("AtesliDöngü_Anim", -1, 0f);
             }
         }
+    }
+
+    // Animasyon Olayý tarafýndan çaðrýlacak
+    public void AnimasyonBittiSecenekleriGoster()
+    {
+        YeniSecenekleriBelirle();
+        secenekGrubuCanvasGroup.alpha = 1;
+        secenekGrubuCanvasGroup.interactable = true;
+        secenekGrubuCanvasGroup.blocksRaycasts = true;
     }
 
     void YeniSecenekleriBelirle()
@@ -50,23 +63,17 @@ public class SecimPaneliKontrol : MonoBehaviour
         int index2;
         do { index2 = Random.Range(0, olasiItemler.Length); } while (index1 == index2);
         sunulanItem2 = olasiItemler[index2];
-
         secim1Text.text = sunulanItem1;
         secim2Text.text = sunulanItem2;
-
-        if (secim1GorselAlani != null) // Null kontrolü eklendi
-            secim1GorselAlani.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.8f, 1f);
-        if (secim2GorselAlani != null) // Null kontrolü eklendi
-            secim2GorselAlani.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.8f, 1f);
+        if (secim1GorselAlani != null) secim1GorselAlani.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.8f, 1f);
+        if (secim2GorselAlani != null) secim2GorselAlani.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.8f, 1f);
     }
 
     public void SecimYap(int secimIndex)
     {
-        if (secimIndex == 1) Debug.Log("Seçim 1 yapýldý: " + sunulanItem1 + " alýndý!");
-        else if (secimIndex == 2) Debug.Log("Seçim 2 yapýldý: " + sunulanItem2 + " alýndý!");
+        if (secimIndex == 1) Debug.Log("Secim 1 yapýldý: " + sunulanItem1 + " alýndý!");
+        else if (secimIndex == 2) Debug.Log("Secim 2 yapýldý: " + sunulanItem2 + " alýndý!");
 
-        // Sadece paneli kapatýyoruz. Ýçindeki Animator otomatik duracak.
         secimPaneli.SetActive(false);
-        // videoOynatici.Stop satýrý SÝLÝNDÝ!
     }
 }
