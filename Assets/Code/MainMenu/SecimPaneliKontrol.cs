@@ -1,51 +1,48 @@
 using UnityEngine;
-using TMPro; // TextMeshPro için ÞART!
-// Video kütüphanesine artýk ihtiyacýmýz yok!
+using UnityEngine.UI; // Image referansý için ÞART!
+// Artýk using UnityEngine.Video; satýrýna ÝHTÝYACIMIZ YOK!
+using TMPro;
 
 public class SecimPaneliKontrol : MonoBehaviour
 {
     [Header("Panel Referanslarý")]
     public GameObject secimPaneli;
-    // VideoOynatici referansýna artýk ihtiyacýmýz yok!
+    // VideoOynatici referansý SÝLÝNDÝ!
 
     [Header("Seçenek Elemanlarý")]
     public TextMeshProUGUI secim1Text;
     public TextMeshProUGUI secim2Text;
+    public Image secim1GorselAlani;
+    public Image secim2GorselAlani;
 
     // --- Ýtem Havuzu ---
     private string[] olasiItemler = new string[]
     {
         "Ekstra Can", "Hýzlý Koþma", "Çift Zýplama", "Güçlü Mermi", "Kalkan", "Hýzlý Ateþ Etme"
     };
-
     private string sunulanItem1;
     private string sunulanItem2;
 
     void Start()
     {
-        // Oyun baþýnda panel kapalý olsun
         if (secimPaneli != null) secimPaneli.SetActive(false);
     }
 
     void Update()
     {
-        // 'H' tuþuna (Kalp toplama) basýldýðýnda
         if (Input.GetKeyDown(KeyCode.H))
         {
             if (!secimPaneli.activeSelf)
             {
-                // 1. Rastgele itemleri belirle
                 YeniSecenekleriBelirle();
 
-                // 2. Paneli aç
+                // Sadece paneli açýyoruz. Ýçindeki Animator otomatik baþlayacak.
                 secimPaneli.SetActive(true);
-                // Panel açýldýðý an, içindeki Animator otomatik olarak oynamaya baþlayacak!
-                Debug.Log("Özellik Seçim Paneli açýldý!");
+                // videoOynatici.Stop/Play satýrlarý SÝLÝNDÝ!
             }
         }
     }
 
-    // Ýtem havuzundan iki FARKLI item seçen metot
     void YeniSecenekleriBelirle()
     {
         int index1 = Random.Range(0, olasiItemler.Length);
@@ -53,17 +50,23 @@ public class SecimPaneliKontrol : MonoBehaviour
         int index2;
         do { index2 = Random.Range(0, olasiItemler.Length); } while (index1 == index2);
         sunulanItem2 = olasiItemler[index2];
+
         secim1Text.text = sunulanItem1;
         secim2Text.text = sunulanItem2;
+
+        if (secim1GorselAlani != null) // Null kontrolü eklendi
+            secim1GorselAlani.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.8f, 1f);
+        if (secim2GorselAlani != null) // Null kontrolü eklendi
+            secim2GorselAlani.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.8f, 1f);
     }
 
-    // --- BUTON FONKSÝYONLARI ---
     public void SecimYap(int secimIndex)
     {
         if (secimIndex == 1) Debug.Log("Seçim 1 yapýldý: " + sunulanItem1 + " alýndý!");
         else if (secimIndex == 2) Debug.Log("Seçim 2 yapýldý: " + sunulanItem2 + " alýndý!");
 
-        // Paneli kapat. Panel kapandýðý an, içindeki Animator otomatik olarak duracak.
+        // Sadece paneli kapatýyoruz. Ýçindeki Animator otomatik duracak.
         secimPaneli.SetActive(false);
+        // videoOynatici.Stop satýrý SÝLÝNDÝ!
     }
 }
