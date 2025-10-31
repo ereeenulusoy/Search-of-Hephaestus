@@ -11,10 +11,7 @@ public class PlayerVisualController : MonoBehaviour
     [SerializeField] private Transform gauntlet;
     [SerializeField] private Transform pipe;
 
-    private void Start()
-    {
-        SwitchOffWeapons();
-    }
+    
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))

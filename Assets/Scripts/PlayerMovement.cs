@@ -1,6 +1,8 @@
 using System.Collections;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -11,8 +13,12 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
-    private Vector3 movementDirection;
+    [SerializeField] private float rotationSpeed;
     private float verticalVelocity;
+    
+    private Vector3 movementDirection;
+    private Vector2 moveInput;
+
 
     [Header("Dash")]
     [SerializeField] private Rig aimRig;
@@ -20,18 +26,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashDuration;
     [SerializeField]float fadeInDuration;
     private bool isDashing = false;
-
-
-
-   [Header("Aim")]
-    [SerializeField] Transform aimTransform;
-    [SerializeField] LayerMask aimLayerMask;
-    [SerializeField] private float rotationSpeed;
-    private Vector3 lookingDirection;
-    private Vector3 aimTargetPoint;
-
-    private Vector2 moveInput;
-    private Vector2 aimInput;
 
     private void Start()
     {
@@ -43,15 +37,42 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-
-        HandleAimTargetPosition();
         if (isDashing)
             return;
         HandleCharacterRotation();
         HandleMovement();
         HandleAnimations();
     }
+   
+    private void HandleCharacterRotation()
+    {
 
+        Vector3 lookingDirection = player.aim.GetMousePosition() - transform.position;
+        lookingDirection.y = 0;
+        if (lookingDirection == Vector3.zero) return; 
+        Quaternion rotate = Quaternion.LookRotation(lookingDirection);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotate,rotationSpeed*Time.deltaTime); 
+    }
+
+
+    private void Shoot()
+    {
+        animator.SetTrigger("Fire");
+    }
+    private void HandleMovement()
+    {
+        movementDirection = new Vector3(moveInput.x, 0, moveInput.y);
+
+        HandleGravity();
+
+        if (movementDirection.magnitude > 0)
+        {
+            characterController.Move(movementDirection * moveSpeed * Time.deltaTime);
+        }
+
+    }
+  
+    #region Dash
     private void HandleDash()
     {
         if (isDashing)
@@ -70,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (dashDirection.magnitude < 0.1f)
         {
-            dashDirection = new Vector3(-transform.forward.x, 0, -transform.forward.z);
+            dashDirection = new Vector3(-transform.forward.x, 0, -transform.forward.z).normalized;
         }
           
         aimRig.weight = 0f;
@@ -96,33 +117,7 @@ public class PlayerMovement : MonoBehaviour
         aimRig.weight = 1f;
 
     }
-
-
-    private void Shoot()
-    {
-        animator.SetTrigger("Fire");
-    }
-    private void HandleAnimations()
-    {
-        float xVelocity = Vector3.Dot(movementDirection.normalized, transform.right);//normalized vektörü 1 yapýyor ve doðrultusunu tutuyor.
-        float zVelocity = Vector3.Dot(movementDirection.normalized, transform.forward);
-        animator.SetFloat("xVelocity", xVelocity, .1f, Time.deltaTime);
-        animator.SetFloat("zVelocity", zVelocity, .1f, Time.deltaTime);
-    }
-
-    private void HandleMovement()
-    {
-        movementDirection = new Vector3(moveInput.x, 0, moveInput.y);
-
-        HandleGravity();
-
-        if (movementDirection.magnitude > 0)
-        {
-            characterController.Move(movementDirection * moveSpeed * Time.deltaTime);
-        }
-
-    }
-
+    #endregion
     private void HandleGravity()
     {
         if (!characterController.isGrounded)
@@ -134,43 +129,21 @@ public class PlayerMovement : MonoBehaviour
             verticalVelocity = -0.5f;
 
     }
-
-
-    private void HandleAimTargetPosition()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(aimInput);
-        
-        if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, aimLayerMask))
-        {
-            aimTargetPoint = hitInfo.point;
-            aimTransform.position = new Vector3(hitInfo.point.x, transform.position.y + 1.53f, hitInfo.point.z);
-        }
-    }
-
-    private void HandleCharacterRotation()
-    {
-        lookingDirection = aimTargetPoint - transform.position;
-        lookingDirection.y = 0;
-        if (lookingDirection == Vector3.zero) return; 
-        Quaternion rotate = Quaternion.LookRotation(lookingDirection);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotate, rotationSpeed);
-    }
-
-
     private void HandleInputEvents()
     {
         controls = player.controls; //PlayerControls'u sahnede oluþturmaya yarar. Birnevi awake'de instantiate yapýlýr.
 
         controls.Character.Movement.performed += context => moveInput = context.ReadValue<Vector2>();
-        //Hangi tuþa basýyorsan performed haldeyken bastýðýn tuþun deðerini context'ten çekiyor.
         controls.Character.Movement.canceled += context => moveInput = Vector2.zero;
-        //Tuþu býrakýnca yani canceled olunca hýzýmýzý 0lýyoruz.
-
-        controls.Character.Aim.performed += context => aimInput = context.ReadValue<Vector2>();
-        //Anlýk Ekran uzayýndaki mouse'un konumunu alýyoruz. x =>0 - 1920, y => 0 - 1080
-        controls.Character.Aim.canceled += context => aimInput = Vector2.zero;
-        //Ekranda deðilse nullifylýyoruz.
+        
         controls.Character.Dash.performed += context => HandleDash();
+    }
+    private void HandleAnimations()
+    {
+        float xVelocity = Vector3.Dot(movementDirection.normalized, transform.right);//normalized vektörü 1 yapýyor ve doðrultusunu tutuyor.
+        float zVelocity = Vector3.Dot(movementDirection.normalized, transform.forward);
+        animator.SetFloat("xVelocity", xVelocity, .1f, Time.deltaTime);
+        animator.SetFloat("zVelocity", zVelocity, .1f, Time.deltaTime);
     }
 
 }
