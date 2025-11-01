@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerVisualController : MonoBehaviour
@@ -11,7 +9,7 @@ public class PlayerVisualController : MonoBehaviour
     [SerializeField] private Transform gauntlet;
     [SerializeField] private Transform pipe;
 
-    
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -41,8 +39,8 @@ public class PlayerVisualController : MonoBehaviour
     private void SwitchOffWeapons()
     {
         for (int i = 0; i < gunTransform.Length; i++)
-        { 
-        gunTransform[i].gameObject.SetActive(false);   
+        {
+            gunTransform[i].gameObject.SetActive(false);
         }
     }
 }

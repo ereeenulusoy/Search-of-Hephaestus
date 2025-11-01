@@ -1,8 +1,6 @@
 using System.Collections;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
-using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,16 +13,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotationSpeed;
     private float verticalVelocity;
-    
-    private Vector3 movementDirection;
-    private Vector2 moveInput;
 
+    public Vector2 moveInput { get; private set; }
+    private Vector3 movementDirection;
 
     [Header("Dash")]
     [SerializeField] private Rig aimRig;
     [SerializeField] private float dashSpeed;
     [SerializeField] private float dashDuration;
-    [SerializeField]float fadeInDuration;
+    [SerializeField] private float fadeInDuration;
     private bool isDashing = false;
 
     private void Start()
@@ -43,15 +40,15 @@ public class PlayerMovement : MonoBehaviour
         HandleMovement();
         HandleAnimations();
     }
-   
+
     private void HandleCharacterRotation()
     {
 
         Vector3 lookingDirection = player.aim.GetMousePosition() - transform.position;
         lookingDirection.y = 0;
-        if (lookingDirection == Vector3.zero) return; 
+        if (lookingDirection == Vector3.zero) return;
         Quaternion rotate = Quaternion.LookRotation(lookingDirection);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotate,rotationSpeed*Time.deltaTime); 
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotate, rotationSpeed * Time.deltaTime);
     }
 
 
@@ -71,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
     }
-  
+
     #region Dash
     private void HandleDash()
     {
@@ -84,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
         isDashing = true;
         animator.SetTrigger("doDash");
 
-        
+
         float timer = 0;
 
         Vector3 dashDirection = new Vector3(moveInput.x, 0, moveInput.y).normalized;
@@ -93,20 +90,20 @@ public class PlayerMovement : MonoBehaviour
         {
             dashDirection = new Vector3(-transform.forward.x, 0, -transform.forward.z).normalized;
         }
-          
-        aimRig.weight = 0f;
+
+        aimRig.weight = 0.2f;
 
         while (timer < dashDuration)
         {
             characterController.Move(dashDirection * dashSpeed * Time.deltaTime);
-
             timer += Time.deltaTime;
             yield return null;
         }
-        
-        float fadeTimer = 0f;
+
 
         isDashing = false;
+
+        float fadeTimer = 0f;
 
         while (fadeTimer < fadeInDuration)
         {
@@ -135,7 +132,7 @@ public class PlayerMovement : MonoBehaviour
 
         controls.Character.Movement.performed += context => moveInput = context.ReadValue<Vector2>();
         controls.Character.Movement.canceled += context => moveInput = Vector2.zero;
-        
+
         controls.Character.Dash.performed += context => HandleDash();
     }
     private void HandleAnimations()
