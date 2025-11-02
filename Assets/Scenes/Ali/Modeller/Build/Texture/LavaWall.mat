@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: trident
+  m_Name: LavaWall
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -42,15 +42,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: 121a5f6b98a0c2741bd6501fd358496c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3e53a44c1364cf9498fa8a52f6ab1d39, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 861efde67b6dbf643b0f0d322ef1b043, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0ac3b8451ab81b84c8b8af0470b1f72d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 3b586a9de483aca4aa71c9ebc95d259b, type: 3}
+        m_Texture: {fileID: 2800000, guid: dfe2c10fac0398941a1a591ad80f31d3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -68,7 +68,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 0.5
-    - _Glossiness: 0.5
+    - _Glossiness: 6
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
@@ -81,5 +81,5 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0.039546248, g: 0.039546248, b: 0.039546248, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
