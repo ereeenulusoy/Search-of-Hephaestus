@@ -66,7 +66,7 @@ public class PlayerAim : MonoBehaviour
 
         Vector3 laserDirection = player.weapon.BulletDirection();
 
-        float laserDistance = 5f;
+        float laserDistance = 6f;
         float fadeOutLenght = 1f;
 
 
