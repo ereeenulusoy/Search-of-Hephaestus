@@ -9,11 +9,12 @@ public class PlayerWeaponController : MonoBehaviour
     [SerializeField] private Transform gunPoint;
 
     [SerializeField] private Transform weaponHolder;
-    [SerializeField] private Transform aim;
+    private Transform aim;
     private void Start()
     {
         player = GetComponent<Player>();
         player.controls.Character.Fire.performed += context => Shoot();
+        aim = player.aim.Aim();
     }
     private void Update()
     {
@@ -27,9 +28,7 @@ public class PlayerWeaponController : MonoBehaviour
         if (player.movement.isStillDashing)
             return;
         
-        
         GameObject newBullet = Instantiate(bulletPrefab, gunPoint.position, Quaternion.LookRotation(gunPoint.forward));
-        // yeni bir bullet oluþtururken prefabteki bulleti , nerede doðacaðýný ve hangi yönde doðacaðýný seçiyoruz.
         Rigidbody rb = newBullet.GetComponent<Rigidbody>();
         rb.velocity = BulletDirection() * bulletSpeed;
 
@@ -49,6 +48,6 @@ public class PlayerWeaponController : MonoBehaviour
     }
 
     public Transform GunPoint() => gunPoint;
-    // lazer için Gunpointe ve Bullet Direction'a ihtiyacýmýz var. Bunlarý weapon'dan çekip aim'de kullanacaðýz.
+    
    
 }

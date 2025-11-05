@@ -103,7 +103,7 @@ public class PlayerAim : MonoBehaviour
         if (target != null && isLockingToTarget)
         {
             aim.position = target.position;
-            return; // return yap ki diðerleri ezmesin.
+            return;
         }
 
         aim.position = GetMouseHitInfo().point;
@@ -112,13 +112,7 @@ public class PlayerAim : MonoBehaviour
             aim.position = new Vector3(aim.position.x, transform.position.y + 1.5f, aim.position.z);
     }
 
-    public bool GetIsAimPricesly()
-    {
-        if (isAimingPricesly)
-            return true;
-
-        return false;
-    }
+    #region Camera
     private void UpdateCameraPosition()
     {
         cameraFollowTarget.position = Vector3.Lerp(cameraFollowTarget.position, GetDesiredCameraPosition(), cameraSensitivity * Time.deltaTime);
@@ -128,10 +122,8 @@ public class PlayerAim : MonoBehaviour
         float currentMaxCameraDistance = player.movement.moveInput.y < -0.5f ? 2 : maxCameraDistance;
 
         Vector3 rawCameraPosition = GetMouseHitInfo().point;
-        Vector3 aimDirection = (rawCameraPosition - transform.position).normalized; // looking direction'u aldýk.
+        Vector3 aimDirection = (rawCameraPosition - transform.position).normalized;
 
-        // sýnýrlarý aþýyorsa max veya min ile çarpacaðýz. geçmiyorsa da mouse deðerinin kendisiyle.
-        // Yani bunun büyüklüðü 1 olmalý.
 
         float distanceToRawCameraPosition = Vector3.Distance(transform.position, rawCameraPosition);
         float clampedDistance = Mathf.Clamp(distanceToRawCameraPosition, minCameraDistance, currentMaxCameraDistance);
@@ -141,6 +133,7 @@ public class PlayerAim : MonoBehaviour
 
         return desiredCameraPosition;
     }
+    #endregion
     public RaycastHit GetMouseHitInfo()
     {
 
@@ -152,6 +145,9 @@ public class PlayerAim : MonoBehaviour
         }
         return lastHitInfo;
     }
+
+    public Transform Aim() => aim;
+    public bool GetIsAimPricesly() => isAimingPricesly;
     private void AssignInputEvents()
     {
         controls = player.controls;
