@@ -6,15 +6,26 @@ public class PlayerAim : MonoBehaviour
     private PlayerControls controls;
     private Vector2 aimInput;
 
+    [Header("Aim Visuals - Laser")]
+    [SerializeField] private LineRenderer aimLaser;
+
     [Header("Aim")]
+    [SerializeField] private Transform aim;
+    [SerializeField] private LayerMask aimLayerMask;
+
+    [SerializeField] private bool isAimingPricesly;
+    [SerializeField] private bool isLockingToTarget;
+    [Space]
+
+    [Header("Camera")]
+    [SerializeField] Transform cameraFollowTarget;
     [SerializeField] private float minCameraDistance = 1.5f;
-    [SerializeField] private float maxCameraDistance = 4f;
-    [SerializeField] private float aimSensitivity = 5f;
-
-    [SerializeField] Transform aimTransform;
-    [SerializeField] LayerMask aimLayerMask;
+    [SerializeField] private float maxCameraDistance = 3f;
+    [SerializeField] private float cameraSensitivity = 9f;
 
 
+
+    RaycastHit lastHitInfo;
     private void Start()
     {
         player = GetComponent<Player>();
@@ -24,35 +35,122 @@ public class PlayerAim : MonoBehaviour
 
     private void Update()
     {
-        aimTransform.position = Vector3.Lerp(aimTransform.position, GetDesiredAimPosition(), aimSensitivity * Time.deltaTime);
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            isAimingPricesly = !isAimingPricesly;
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            isLockingToTarget = !isLockingToTarget;
+        }
+
+        UpdateAimLaser();
+        UpdateAimPosition();
+        UpdateCameraPosition();
     }
 
-    private Vector3 GetDesiredAimPosition()
+    private void UpdateAimLaser()
+    {
+        if (player.movement.isStillDashing)
+        {
+            aimLaser.enabled = false;
+            return;
+        }
+        else
+        {
+            aimLaser.enabled = true;
+        }
+
+            Transform gunPoint = player.weapon.GunPoint();
+
+
+        Vector3 laserDirection = player.weapon.BulletDirection();
+
+        float laserDistance = 5f;
+        float fadeOutLenght = 1f;
+
+
+        Vector3 endPoint = gunPoint.position + laserDirection * laserDistance;
+
+        if (Physics.Raycast(gunPoint.position, laserDirection, out RaycastHit hit, laserDistance))
+        // if RaycastHit hit returns something, do that.
+        {
+            endPoint = hit.point;
+            fadeOutLenght = 0f;
+        }
+
+        aimLaser.SetPosition(0, gunPoint.position);
+        aimLaser.SetPosition(1, endPoint);
+        aimLaser.SetPosition(2, endPoint + laserDirection * fadeOutLenght);
+
+    }
+
+    public Transform Target()
+    {
+        Transform target = null;
+
+        if (GetMouseHitInfo().transform.GetComponent<Target>() != null)
+        {
+            target = GetMouseHitInfo().transform;
+        }
+
+        return target;
+    }
+    private void UpdateAimPosition()
+    {
+        Transform target = Target();
+
+        if (target != null && isLockingToTarget)
+        {
+            aim.position = target.position;
+            return; // return yap ki diðerleri ezmesin.
+        }
+
+        aim.position = GetMouseHitInfo().point;
+
+        if (!isAimingPricesly)
+            aim.position = new Vector3(aim.position.x, transform.position.y + 1.5f, aim.position.z);
+    }
+
+    public bool GetIsAimPricesly()
+    {
+        if (isAimingPricesly)
+            return true;
+
+        return false;
+    }
+    private void UpdateCameraPosition()
+    {
+        cameraFollowTarget.position = Vector3.Lerp(cameraFollowTarget.position, GetDesiredCameraPosition(), cameraSensitivity * Time.deltaTime);
+    }
+    private Vector3 GetDesiredCameraPosition()
     {
         float currentMaxCameraDistance = player.movement.moveInput.y < -0.5f ? 2 : maxCameraDistance;
 
-        Vector3 rawMousePosition = GetMousePosition();
-        Vector3 aimDirection = rawMousePosition - transform.position; // looking direction'u aldýk.
+        Vector3 rawCameraPosition = GetMouseHitInfo().point;
+        Vector3 aimDirection = (rawCameraPosition - transform.position).normalized; // looking direction'u aldýk.
 
-        aimDirection.Normalize(); // sýnýrlarý aþýyorsa max veya min ile çarpacaðýz. geçmiyorsa da mouse deðerinin kendisiyle.
-                                  // Yani bunun büyüklüðü 1 olmalý.
+        // sýnýrlarý aþýyorsa max veya min ile çarpacaðýz. geçmiyorsa da mouse deðerinin kendisiyle.
+        // Yani bunun büyüklüðü 1 olmalý.
 
-        float distanceToRawPosition = Vector3.Distance(transform.position, rawMousePosition);
-        float clampedDistance = Mathf.Clamp(distanceToRawPosition, minCameraDistance, currentMaxCameraDistance);
+        float distanceToRawCameraPosition = Vector3.Distance(transform.position, rawCameraPosition);
+        float clampedDistance = Mathf.Clamp(distanceToRawCameraPosition, minCameraDistance, currentMaxCameraDistance);
 
-        Vector3 desiredAimPosition = transform.position + aimDirection * clampedDistance;
-        desiredAimPosition.y = transform.position.y + 1.5f;
+        Vector3 desiredCameraPosition = transform.position + aimDirection * clampedDistance;
+        desiredCameraPosition.y = transform.position.y + 1.5f;
 
-        return desiredAimPosition;
+        return desiredCameraPosition;
     }
-    public Vector3 GetMousePosition()
+    public RaycastHit GetMouseHitInfo()
     {
+
         Ray ray = Camera.main.ScreenPointToRay(aimInput);
         if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, aimLayerMask))
         {
-            return hitInfo.point;
+            lastHitInfo = hitInfo;
+            return hitInfo;
         }
-        return Vector3.zero;
+        return lastHitInfo;
     }
     private void AssignInputEvents()
     {

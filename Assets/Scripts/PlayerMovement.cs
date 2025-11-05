@@ -22,8 +22,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashSpeed;
     [SerializeField] private float dashDuration;
     [SerializeField] private float fadeInDuration;
-    private bool isDashing = false;
-
+    [SerializeField] private float fadeOutDuration;
+    [SerializeField] private float dashCooldown;
+    private bool canDash = true;
+    public bool isDashing {  get; private set; }
+    public bool isStillDashing {  get; private set; }
     private void Start()
     {
         player = GetComponent<Player>();
@@ -44,17 +47,11 @@ public class PlayerMovement : MonoBehaviour
     private void HandleCharacterRotation()
     {
 
-        Vector3 lookingDirection = player.aim.GetMousePosition() - transform.position;
+        Vector3 lookingDirection = player.aim.GetMouseHitInfo().point - transform.position;
         lookingDirection.y = 0;
-        if (lookingDirection == Vector3.zero) return;
+       
         Quaternion rotate = Quaternion.LookRotation(lookingDirection);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotate, rotationSpeed * Time.deltaTime);
-    }
-
-
-    private void Shoot()
-    {
-        animator.SetTrigger("Fire");
     }
     private void HandleMovement()
     {
@@ -72,16 +69,18 @@ public class PlayerMovement : MonoBehaviour
     #region Dash
     private void HandleDash()
     {
-        if (isDashing)
+        if (!canDash)
             return;
+
+        canDash = false;
+        isStillDashing = true;
         StartCoroutine(DashCoroutine());
     }
     private IEnumerator DashCoroutine()
     {
         isDashing = true;
         animator.SetTrigger("doDash");
-
-
+        
         float timer = 0;
 
         Vector3 dashDirection = new Vector3(moveInput.x, 0, moveInput.y).normalized;
@@ -91,27 +90,31 @@ public class PlayerMovement : MonoBehaviour
             dashDirection = new Vector3(-transform.forward.x, 0, -transform.forward.z).normalized;
         }
 
-        aimRig.weight = 0.2f;
+        float fadeTimer = 0f;
 
         while (timer < dashDuration)
         {
             characterController.Move(dashDirection * dashSpeed * Time.deltaTime);
+            aimRig.weight = Mathf.Lerp(0.3f, 0f, timer / fadeOutDuration);
             timer += Time.deltaTime;
             yield return null;
         }
-
+        aimRig.weight = 0f;
 
         isDashing = false;
-
-        float fadeTimer = 0f;
+        fadeTimer = 0f;
 
         while (fadeTimer < fadeInDuration)
         {
             aimRig.weight = Mathf.Lerp(0f, 1f, fadeTimer / fadeInDuration);
-            fadeTimer += Time.deltaTime;
+            fadeTimer += Time.deltaTime;    
             yield return null;
         }
         aimRig.weight = 1f;
+       
+        isStillDashing = false;
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
 
     }
     #endregion
