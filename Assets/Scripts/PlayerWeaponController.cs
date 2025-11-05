@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerWeaponController : MonoBehaviour
 {
+    private const float REFFERENCED_BULLET_SPEED = 20f;
     private Player player;
 
     [SerializeField] private GameObject bulletPrefab;
@@ -29,8 +30,11 @@ public class PlayerWeaponController : MonoBehaviour
             return;
         
         GameObject newBullet = Instantiate(bulletPrefab, gunPoint.position, Quaternion.LookRotation(gunPoint.forward));
-        Rigidbody rb = newBullet.GetComponent<Rigidbody>();
-        rb.velocity = BulletDirection() * bulletSpeed;
+        
+        Rigidbody rbNewBullet = newBullet.GetComponent<Rigidbody>();
+      
+        rbNewBullet.mass = REFFERENCED_BULLET_SPEED / bulletSpeed;
+        rbNewBullet.velocity = BulletDirection() * bulletSpeed;
 
         Destroy(newBullet, 5f);
         GetComponentInChildren<Animator>().SetTrigger("Fire");
