@@ -9,6 +9,6 @@ public class Bullet : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
        // rb.constraints = RigidbodyConstraints.FreezeAll;
-       Destroy(gameObject);
+       Destroy(gameObject,0.05f);
     }
 }
