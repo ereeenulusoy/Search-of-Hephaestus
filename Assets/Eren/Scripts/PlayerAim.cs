@@ -6,8 +6,6 @@ public class PlayerAim : MonoBehaviour
     private PlayerControls controls;
     private Vector2 aimInput;
 
-    [Header("Aim Visuals - Laser")]
-    [SerializeField] private LineRenderer aimLaser;
 
     [Header("Aim")]
     [SerializeField] private Transform aim;
@@ -44,46 +42,11 @@ public class PlayerAim : MonoBehaviour
             isLockingToTarget = !isLockingToTarget;
         }
 
-        UpdateAimLaser();
         UpdateAimPosition();
         UpdateCameraPosition();
     }
 
-    private void UpdateAimLaser()
-    {
-        if (player.movement.isStillDashing)
-        {
-            aimLaser.enabled = false;
-            return;
-        }
-        else
-        {
-            aimLaser.enabled = true;
-        }
-
-            Transform gunPoint = player.weapon.GunPoint();
-
-
-        Vector3 laserDirection = player.weapon.BulletDirection();
-
-        float laserDistance = 6f;
-        float fadeOutLenght = 1f;
-
-
-        Vector3 endPoint = gunPoint.position + laserDirection * laserDistance;
-
-        if (Physics.Raycast(gunPoint.position, laserDirection, out RaycastHit hit, laserDistance))
-        // if RaycastHit hit returns something, do that.
-        {
-            endPoint = hit.point;
-            fadeOutLenght = 0f;
-        }
-
-        aimLaser.SetPosition(0, gunPoint.position);
-        aimLaser.SetPosition(1, endPoint);
-        aimLaser.SetPosition(2, endPoint + laserDirection * fadeOutLenght);
-
-    }
+    
 
     public Transform Target()
     {
