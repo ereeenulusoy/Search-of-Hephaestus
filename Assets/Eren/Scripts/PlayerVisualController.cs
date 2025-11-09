@@ -1,7 +1,10 @@
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class PlayerVisualController : MonoBehaviour
 {
+    [SerializeField] private Rig leftHandRig;
+    private Animator anim;
     [SerializeField] private Transform[] gunTransform;
 
     [SerializeField] private Transform pistolGun;
@@ -14,34 +17,45 @@ public class PlayerVisualController : MonoBehaviour
     
     [Header("Left Hand IK")]
     [SerializeField] Transform leftHandTarget;
-    // [SerializeField] Transform leftHandHint;
-    // Eðer Hint için de ekleyeceksen Target gibi hepsine LeftHand_TargetHintTransform gameObjecti ekle.
+    
 
     private void Start()
     {
-        SwitchOn(pistolGun);
+        SwitchOn(pipe);
+
+        anim = GetComponentInParent<Animator>();
     }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            SwitchOn(pistolGun);
+            SwitchOn(pipe);
+            SwitchAnimationLayers(1);
+          
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            SwitchOn(shotgun);
+            SwitchOn(pistolGun);
+            SwitchAnimationLayers(2);
+           
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            SwitchOn(gauntlet);
+            SwitchOn(shotgun);
+            SwitchAnimationLayers(3);
+            
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            SwitchOn(pipe);
+            SwitchOn(gauntlet);
+            SwitchAnimationLayers(4);
+            
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             SwitchOn(trident);
+            SwitchAnimationLayers(5);
+           
         }
     }
 
@@ -66,13 +80,20 @@ public class PlayerVisualController : MonoBehaviour
     private void AttachLeftHand()
     {
         Transform targetTransform = currentGun.GetComponentInChildren<LeftHandTargetPosition>().transform;
-       // Transform hintTransform = currentGun.GetComponentInChildren<LeftHandTargetHintPosition>().transform;
-         // Þuanki silahýn altýndaki lefthandtargetposition scripti bulunan child'ýn konumunu,rotasyonunu,yönünü alýr.
+      
 
         leftHandTarget.localPosition = targetTransform.localPosition;
         leftHandTarget.localRotation = targetTransform.localRotation;
 
-        //leftHandHint.localPosition = hintTransform.position;
-       // leftHandHint.localRotation = hintTransform.localRotation;
+       
+    }
+
+    private void SwitchAnimationLayers(int layerIndex)
+    {
+        for (int i = 1; i <anim.layerCount; i++)
+        {
+        anim.SetLayerWeight(i, 0);
+        }
+        anim.SetLayerWeight(layerIndex, 1);
     }
 }
