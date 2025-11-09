@@ -1602,6 +1602,7 @@ GameObject:
   - component: {fileID: 7303347135556327058}
   - component: {fileID: 8781223007875412376}
   - component: {fileID: 5589225667619021575}
+  - component: {fileID: 230276102846657983}
   m_Layer: 0
   m_Name: Pipe_2 (1)
   m_TagString: Untagged
@@ -1674,6 +1675,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &230276102846657983
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536773159830491861}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.25226638, y: 0.14419934, z: 0.24989127}
+  m_Center: {x: 0.04949752, y: 0.0000066492626, z: 0.04847132}
 --- !u!1 &543114714292062985
 GameObject:
   m_ObjectHideFlags: 0
@@ -3288,6 +3310,7 @@ GameObject:
   - component: {fileID: 1712751589041698356}
   - component: {fileID: 4675793247660029625}
   - component: {fileID: 2302550036388244463}
+  - component: {fileID: 4863404196438427491}
   m_Layer: 0
   m_Name: Bulb_3 (1)
   m_TagString: Untagged
@@ -3445,6 +3468,27 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!65 &4863404196438427491
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203038375288400247}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.2108731, y: 0.32365778, z: 0.21087313}
+  m_Center: {x: -0.0000003054739, y: 0.15768643, z: 0.000005722046}
 --- !u!1 &1205435126034512920
 GameObject:
   m_ObjectHideFlags: 0
@@ -5033,7 +5077,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4429726625628324624
 Transform:
   m_ObjectHideFlags: 0
@@ -7534,6 +7578,7 @@ GameObject:
   - component: {fileID: 2729064011956367269}
   - component: {fileID: 3112515879610663108}
   - component: {fileID: 8707749724747970436}
+  - component: {fileID: 4219419927049484243}
   m_Layer: 0
   m_Name: Pipe_2
   m_TagString: Untagged
@@ -7606,6 +7651,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4219419927049484243
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2845920360990028411}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.2522662, y: 0.14419924, z: 0.24989124}
+  m_Center: {x: 0.04949748, y: 0.0000057071447, z: 0.04847132}
 --- !u!1 &2952317032067909068
 GameObject:
   m_ObjectHideFlags: 0
@@ -11619,7 +11685,7 @@ GameObject:
   - component: {fileID: 7053986355852395096}
   - component: {fileID: 6190582579111857328}
   m_Layer: 0
-  m_Name: SnapPoint - Enter
+  m_Name: SnapPoint - Exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11723,7 +11789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7273f54ed8ba42e46b176b2edb60c309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointType: 0
+  pointType: 1
 --- !u!1 &4551913698872188255
 GameObject:
   m_ObjectHideFlags: 0
@@ -11855,6 +11921,7 @@ GameObject:
   - component: {fileID: 983052950661137376}
   - component: {fileID: 6291478877922763772}
   - component: {fileID: 2603483297021286649}
+  - component: {fileID: 6772063433979306091}
   m_Layer: 0
   m_Name: Bulb_3
   m_TagString: Untagged
@@ -12012,6 +12079,27 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!65 &6772063433979306091
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4743897771807218363}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.2108731, y: 0.32365778, z: 0.21087313}
+  m_Center: {x: -0.0000003054739, y: 0.15768643, z: 0.000005722046}
 --- !u!1 &4773548029775235703
 GameObject:
   m_ObjectHideFlags: 0
@@ -15880,6 +15968,7 @@ GameObject:
   - component: {fileID: 2663234602368095522}
   - component: {fileID: 3411851994137990751}
   - component: {fileID: 5845517429418932453}
+  - component: {fileID: 716825285503688403}
   m_Layer: 0
   m_Name: Pipe_1
   m_TagString: Untagged
@@ -15952,6 +16041,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &716825285503688403
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6384852465238230478}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.59483147, y: 0.14406699, z: 0.14406699}
+  m_Center: {x: -0.000000029802322, y: 0.0000009536743, z: 0.000005722046}
 --- !u!1 &6439016064523652280
 GameObject:
   m_ObjectHideFlags: 0
@@ -20341,6 +20451,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8047808214384188014}
+  - component: {fileID: 7172881991236717495}
   m_Layer: 0
   m_Name: Pipe_3
   m_TagString: Untagged
@@ -20364,6 +20475,27 @@ Transform:
   - {fileID: 8197495474944551567}
   m_Father: {fileID: 2833831000076311501}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7172881991236717495
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8162901989383174916}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8169202909521658477
 GameObject:
   m_ObjectHideFlags: 0
@@ -21727,7 +21859,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8739044181046747015}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -21785,7 +21917,7 @@ Transform:
   - {fileID: 3227556722389518367}
   - {fileID: 2706436709230179214}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &6517278286444385032
 MonoBehaviour:
   m_ObjectHideFlags: 0
