@@ -8,32 +8,51 @@ public class PlayerVisualController : MonoBehaviour
     [SerializeField] private Transform shotgun;
     [SerializeField] private Transform gauntlet;
     [SerializeField] private Transform pipe;
+    [SerializeField] private Transform trident;
 
+    private Transform currentGun;
+    
+    [Header("Left Hand IK")]
+    [SerializeField] Transform leftHandTarget;
+    // [SerializeField] Transform leftHandHint;
+    // Eðer Hint için de ekleyeceksen Target gibi hepsine LeftHand_TargetHintTransform gameObjecti ekle.
 
+    private void Start()
+    {
+        SwitchOn(pistolGun);
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            SwitchOnWeapons(pistolGun);
+            SwitchOn(pistolGun);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            SwitchOnWeapons(shotgun);
+            SwitchOn(shotgun);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            SwitchOnWeapons(gauntlet);
+            SwitchOn(gauntlet);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            SwitchOnWeapons(pipe);
+            SwitchOn(pipe);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            SwitchOn(trident);
         }
     }
 
-    private void SwitchOnWeapons(Transform whichGun)
+   
+    private void SwitchOn(Transform weaponTransform)
     {
         SwitchOffWeapons();
-        whichGun.gameObject.SetActive(true);
+        weaponTransform.gameObject.SetActive(true);
+        currentGun = weaponTransform;
+
+        AttachLeftHand();
     }
 
     private void SwitchOffWeapons()
@@ -42,5 +61,18 @@ public class PlayerVisualController : MonoBehaviour
         {
             gunTransform[i].gameObject.SetActive(false);
         }
+    }
+
+    private void AttachLeftHand()
+    {
+        Transform targetTransform = currentGun.GetComponentInChildren<LeftHandTargetPosition>().transform;
+       // Transform hintTransform = currentGun.GetComponentInChildren<LeftHandTargetHintPosition>().transform;
+         // Þuanki silahýn altýndaki lefthandtargetposition scripti bulunan child'ýn konumunu,rotasyonunu,yönünü alýr.
+
+        leftHandTarget.localPosition = targetTransform.localPosition;
+        leftHandTarget.localRotation = targetTransform.localRotation;
+
+        //leftHandHint.localPosition = hintTransform.position;
+       // leftHandHint.localRotation = hintTransform.localRotation;
     }
 }
