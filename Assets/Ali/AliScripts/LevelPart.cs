@@ -9,20 +9,18 @@ public class LevelPart : MonoBehaviour
     [SerializeField] private Collider[] intersectioncheckcolliders;
     [SerializeField] private Transform intersectionCheckParent;
 
-    // Çakışma Kontrolü (İyileştirilmiş)
+    // Çakışma Kontrolü
     public bool IntersectionDetected()
     {
         Physics.SyncTransforms();
         foreach (var collider in intersectioncheckcolliders)
         {
-            // Extents (Yarı Boyutlar)
             Vector3 extents = collider.bounds.extents;
 
-            // OverlapBox, belirtilen hacimdeki tüm collider'ları bulur
             Collider[] hitColliders = Physics.OverlapBox(
                 collider.bounds.center,
                 extents,
-                Quaternion.identity, // Rotation olarak Quaternion.identity kullanılması güvenlidir.
+                Quaternion.identity,
                 intersectionLayer
             );
 
@@ -32,11 +30,8 @@ public class LevelPart : MonoBehaviour
 
                 if (intersectionCheck != null)
                 {
-                    // Vurulan obje bir IntersectionCheck bileşenine sahipse, bu bir seviye parçasıdır.
-                    // Kendi parçamızla çakışmamak için kök objenin farklı olup olmadığını kontrol etmeliyiz.
                     if (hit.transform.root.gameObject != this.gameObject)
                     {
-                        // Farklı bir parçayla çakışma tespit edildi.
                         Debug.LogWarning("Çakışma tespit edildi: " + this.gameObject.name + " ile " + hit.transform.root.gameObject.name);
                         return true;
                     }
@@ -46,7 +41,7 @@ public class LevelPart : MonoBehaviour
         return false;
     }
 
-    // Sıralama Düzeltildi: Önce Align (Hizalama), sonra Snap (Konumlandırma)
+    // Hizalama ve Konumlandırma
     public void SnapAndAlignPartTo(SnapPoint targetSnapPoint)
     {
         SnapPoint entrancePoint = GetEntrancePoint();
@@ -56,35 +51,39 @@ public class LevelPart : MonoBehaviour
 
         // 2. SONRA KONUMLANDIR (Position)
         SnapTo(entrancePoint, targetSnapPoint);
+
+        // **DUVAR KALDIRMA ÇAĞRILARI BU NOKTADAN ÇIKARILMIŞTIR**
     }
 
-    // Döndürme Mantığı Düzeltildi
+    // Döndürme Mantığı
     private void AlignTo(SnapPoint ownSnapPoint, SnapPoint targetSnapPoint)
     {
-        // 1. Hedef Snap Point'in dönüşünü al (çıkış yönü).
         Quaternion targetRotation = targetSnapPoint.transform.rotation;
-
-        // 2. 180 derece çevirerek yeni parçanın ona bakmasını sağla (giriş yönü).
         targetRotation *= Quaternion.Euler(0, 180, 0);
-
-        // 3. Yeni parçanın giriş noktasının yerel dönüş farkını hesapla ve uygula.
-        // Bu, giriş noktası parçanın pivotunda değilse bile doğru hizalamayı sağlar.
         transform.rotation = targetRotation * Quaternion.Inverse(ownSnapPoint.transform.localRotation);
     }
 
-    // Konumlandırma Mantığı
+    // KONUMLANDIRMA MANTIĞI (İç İçe Geçmeyi Önleyen Düzeltme Korunmuştur)
     private void SnapTo(SnapPoint ownSnapPoint, SnapPoint targetSnapPoint)
     {
-        // Dönüş açısı ayarlandığı için, parçanın pivotu ile giriş Snap Point'i arasındaki 
-        // güncel mesafeyi (offset) hesapla.
+        // Normal Snap Mantığı: Pozisyon offsetini hesapla
         var offset = transform.position - ownSnapPoint.transform.position;
-
-        // Bu offset'i hedef Snap Point'e uygula.
         var newPosition = targetSnapPoint.transform.position + offset;
+
+        // **İÇ İÇE GEÇMEYİ ENGELLEYEN KARŞI-KAYMA DÜZELTMESİ**
+        // Bu değeri deneyerek optimize etmeniz gerekir. (0.005f - 0.02f)
+        float correctionAmount = 0.05f;
+
+        // SnapPoint'in ters yönünde küçük bir itme uygula (hafif geri çekilme)
+        Vector3 pushBack = -targetSnapPoint.transform.forward * correctionAmount;
+
+        // Düzeltmeyi yeni konuma ekle
+        newPosition += pushBack;
+
         transform.position = newPosition;
     }
 
-    // ... (Diğer metodlar aynı kalır)
+    // Diğer metodlar
     public SnapPoint GetEntrancePoint() => GetSnapPointOfType(SnapPointType.Enter);
     public SnapPoint GetExitPoint() => GetSnapPointOfType(SnapPointType.Exit);
 
