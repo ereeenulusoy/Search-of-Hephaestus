@@ -1,7 +1,15 @@
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class PlayerVisualController : MonoBehaviour
 {
+    [Header ("Rig")]
+    [SerializeField] Rig aimRig;
+    [SerializeField] Rig leftHandIKRig;
+    [SerializeField] private float rigIncreaseSpeed;
+
+    private bool shouldRigIncreased;
+
 
     private Animator anim;
     [SerializeField] private Transform[] gunTransform;
@@ -9,6 +17,7 @@ public class PlayerVisualController : MonoBehaviour
     [SerializeField] private Transform pistolGun;
     [SerializeField] private Transform shotgun;
 
+  
 
     private Transform currentGun;
 
@@ -20,25 +29,50 @@ public class PlayerVisualController : MonoBehaviour
     {
         SwitchOn(pistolGun);
 
-        anim = GetComponentInParent<Animator>();
+        anim = GetComponentInChildren<Animator>();
     }
     private void Update()
+    {
+        SwitchWeaponVisuals();
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            aimRig.weight = 0f;
+            leftHandIKRig.weight = 0f;
+
+            anim.SetTrigger("Reload");
+        }
+
+        if (shouldRigIncreased)
+        {
+            aimRig.weight += rigIncreaseSpeed * Time.deltaTime;
+            leftHandIKRig.weight += rigIncreaseSpeed * Time.deltaTime;
+           
+            if (aimRig.weight >= 1f)
+            {
+                shouldRigIncreased = false;
+            }
+        }
+
+    }
+
+    public void IncreaseRigWeight() => shouldRigIncreased = true;
+
+    private void SwitchWeaponVisuals()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             SwitchOn(pistolGun);
-            SwitchAnimationLayers(1);
+            SwitchAnimationLayers(2);
 
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             SwitchOn(shotgun);
-            SwitchAnimationLayers(2);
+            SwitchAnimationLayers(1);
 
         }
-
     }
-
 
     private void SwitchOn(Transform weaponTransform)
     {
