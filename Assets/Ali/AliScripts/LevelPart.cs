@@ -72,7 +72,7 @@ public class LevelPart : MonoBehaviour
 
         // **İÇ İÇE GEÇMEYİ ENGELLEYEN KARŞI-KAYMA DÜZELTMESİ**
         // Bu değeri deneyerek optimize etmeniz gerekir. (0.005f - 0.02f)
-        float correctionAmount = 0.05f;
+        float correctionAmount = 0.01f;
 
         // SnapPoint'in ters yönünde küçük bir itme uygula (hafif geri çekilme)
         Vector3 pushBack = -targetSnapPoint.transform.forward * correctionAmount;
