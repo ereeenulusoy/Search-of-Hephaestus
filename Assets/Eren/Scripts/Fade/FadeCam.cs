@@ -5,6 +5,7 @@ public class FadeCam : MonoBehaviour
     ObjectFading objectFader;
 
     GameObject player;
+    [SerializeField] private Renderer _playerRenderer;
     private void Start()
     {
          player = GameObject.FindGameObjectWithTag("Player");
@@ -14,7 +15,8 @@ public class FadeCam : MonoBehaviour
 
         if (player != null)
         {
-            Vector3 dir = player.transform.position - transform.position;
+            Vector3 bounds = _playerRenderer.bounds.center;
+            Vector3 dir = bounds - transform.position;
             Ray ray = new Ray(transform.position, dir);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
