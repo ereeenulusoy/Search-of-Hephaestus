@@ -12,5 +12,5 @@ public class PlayerAnimationEvent : MonoBehaviour
 
 
     private void FinishReload() => player.visual.IncreaseRigWeight(); 
-    private void BringBackAiming() => player.weapon.isAimChasing =true;
+    private void BringBackAiming() => player.weapon.isAimChasing = true;
 }
