@@ -1,59 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &820573329772408458
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1550568587510026208}
-  - component: {fileID: 1846481542680616505}
-  m_Layer: 0
-  m_Name: Pipe_3
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1550568587510026208
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 820573329772408458}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.959, y: 0.28099978, z: 15.373999}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 858056361950068481}
-  m_Father: {fileID: 6735411707167166019}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1846481542680616505
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 820573329772408458}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2499702825558233152
 GameObject:
   m_ObjectHideFlags: 0
@@ -65,7 +11,7 @@ GameObject:
   - component: {fileID: 6836045073039278252}
   - component: {fileID: 6157091715173876689}
   - component: {fileID: 3113188169607261547}
-  - component: {fileID: 8347874668959107933}
+  - component: {fileID: 7964678545474978227}
   m_Layer: 0
   m_Name: Pipe_1
   m_TagString: Untagged
@@ -138,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8347874668959107933
+--- !u!65 &7964678545474978227
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -172,7 +118,7 @@ GameObject:
   - component: {fileID: 8615305238480655982}
   - component: {fileID: 3270991775112148594}
   - component: {fileID: 6776326750895918455}
-  - component: {fileID: 2868798275476174309}
+  - component: {fileID: 8444231139253143052}
   m_Layer: 0
   m_Name: Bulb_3
   m_TagString: Untagged
@@ -330,7 +276,7 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
---- !u!65 &2868798275476174309
+--- !u!65 &8444231139253143052
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -362,6 +308,7 @@ GameObject:
   - component: {fileID: 858056361950068481}
   - component: {fileID: 7690361313222031700}
   - component: {fileID: 2335848238484506503}
+  - component: {fileID: 3105332446352339990}
   m_Layer: 0
   m_Name: Pipe_3
   m_TagString: Untagged
@@ -377,12 +324,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5090827040974005628}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.009, y: 2.822, z: 2.531}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 1.9500005, y: 3.1029997, z: 17.905003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1550568587510026208}
+  m_Father: {fileID: 6735411707167166019}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &7690361313222031700
 MeshFilter:
@@ -434,6 +381,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3105332446352339990
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5090827040974005628}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5109353, y: 0.14399007, z: 0.32879293}
+  m_Center: {x: -0.000000014901165, y: 0.0000066161156, z: 0.08766747}
 --- !u!1 &6725433873584465909
 GameObject:
   m_ObjectHideFlags: 0
@@ -569,7 +537,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6836045073039278252}
-  - {fileID: 1550568587510026208}
+  - {fileID: 858056361950068481}
   - {fileID: 8030813029075070420}
   - {fileID: 525067668927610402}
   - {fileID: 2265737784286151452}
@@ -589,7 +557,7 @@ GameObject:
   - component: {fileID: 7921793786327196602}
   - component: {fileID: 4235906117262058295}
   - component: {fileID: 7340720108668911201}
-  - component: {fileID: 4131348273466594029}
+  - component: {fileID: 1239480096273015960}
   m_Layer: 0
   m_Name: Bulb_3 (1)
   m_TagString: Untagged
@@ -747,7 +715,7 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
---- !u!65 &4131348273466594029
+--- !u!65 &1239480096273015960
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
