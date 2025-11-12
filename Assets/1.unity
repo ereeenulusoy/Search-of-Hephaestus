@@ -766,7 +766,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7273f54ed8ba42e46b176b2edb60c309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 0
   pointType: 1
+  _closeCapObject: {fileID: 0}
 --- !u!65 &1293860574
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -882,23 +884,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c69d219e8aed13a48ba1674febe6ec5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endCapPrefab: {fileID: 0}
-  lastLevelPart: {fileID: 2206720489727380681, guid: a3c5757ce27058c4c8b3404d4c735f6b, type: 3}
+  lastLevelPart: {fileID: 2206720489727380681, guid: 4c30059edd66eef419990ee0e05e8943, type: 3}
+  corridorPrefab: {fileID: 2206720489727380681, guid: d668b276b744554409f93a97b34cf520, type: 3}
   levelParts:
-  - {fileID: 651088819066958169, guid: fd62b38506b995c468b184d4ae4e715b, type: 3}
-  - {fileID: 182994455217006262, guid: af9a5cb8d3bc50443b45669afe0c8ac8, type: 3}
-  - {fileID: 2206720489727380681, guid: f09fae595a051b74e93b0db8bafb70da, type: 3}
-  - {fileID: 2206720489727380681, guid: 1e7f89d7b5e39b644b57eb9242ce821c, type: 3}
-  - {fileID: 2206720489727380681, guid: 8cf2db49ca16ff7419bc0783bad86c69, type: 3}
-  - {fileID: 2206720489727380681, guid: 1ae3963f55db72a4eb44563fbf53ba3e, type: 3}
-  - {fileID: 2206720489727380681, guid: 26f03e85eaaed374596a15c73b1e96ad, type: 3}
-  - {fileID: 2206720489727380681, guid: 8884e26473ce9a94eb1e3342145f093c, type: 3}
-  - {fileID: 2206720489727380681, guid: 77c4dccb97afc2f45baa993fb1d63d30, type: 3}
-  - {fileID: 2206720489727380681, guid: 26f03e85eaaed374596a15c73b1e96ad, type: 3}
+  - {fileID: 2206720489727380681, guid: 8d19b19789d72fd44bd935a521bd9261, type: 3}
+  - {fileID: 2206720489727380681, guid: 70df69f2947bc2f4784eca448434ce88, type: 3}
+  - {fileID: 2206720489727380681, guid: d60ad0cc46a85f94ea36f8fede9cda26, type: 3}
+  - {fileID: 2206720489727380681, guid: 9885507bbc8b2f343a13df88780f5dee, type: 3}
+  - {fileID: 2206720489727380681, guid: 8c9818f036067b945bdfc7e4e424cc25, type: 3}
+  - {fileID: 2206720489727380681, guid: 26354cbe9262d404184bc2bd9e90f7d2, type: 3}
+  - {fileID: 182994455217006262, guid: e61fd17b3caa0c649b077ea493dc6e3b, type: 3}
+  - {fileID: 651088819066958169, guid: 9516a532d4414fa409304478d33d2c9b, type: 3}
+  - {fileID: 2206720489727380681, guid: 129c3407d72934844aa3e57e71d6155f, type: 3}
   generatedLevelPart:
   - {fileID: 0}
   - {fileID: 0}
   nextSnapPoint: {fileID: 5999979573114884764}
+  maxAllowedSequencedCorridor: 0
   generationCooldown: 0.1
 --- !u!4 &1380995933
 Transform:
@@ -3934,7 +3936,7 @@ GameObject:
   - component: {fileID: 8986107524353468270}
   - component: {fileID: 2667156232563336360}
   m_Layer: 0
-  m_Name: Level1 (1)
+  m_Name: Spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8553,11 +8555,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b38c2a93b83cc7f43bac21a468877432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intersectionLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  intersectioncheckcolliders: []
-  intersectionCheckParent: {fileID: 8601627249393188880}
+  correctionAmount: 0.01
+  _boxCastOriginPoint: {fileID: 0}
+  _boxCastSize: {x: 0, y: 0, z: 0}
+  _boxCastOffset: {x: 0, y: 0, z: 0}
+  DEBUG_DETECTED: []
+  debug: 0
 --- !u!1 &2668041440317648369
 GameObject:
   m_ObjectHideFlags: 0
@@ -17588,7 +17591,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7273f54ed8ba42e46b176b2edb60c309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 0
   pointType: 1
+  _closeCapObject: {fileID: 0}
 --- !u!1 &6014249292519150197
 GameObject:
   m_ObjectHideFlags: 0
@@ -27832,11 +27837,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b38c2a93b83cc7f43bac21a468877432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intersectionLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  intersectioncheckcolliders: []
-  intersectionCheckParent: {fileID: 69504876}
+  correctionAmount: 0.01
+  _boxCastOriginPoint: {fileID: 0}
+  _boxCastSize: {x: 0, y: 0, z: 0}
+  _boxCastOffset: {x: 0, y: 0, z: 0}
+  DEBUG_DETECTED: []
+  debug: 0
 --- !u!23 &8931351587798333986
 MeshRenderer:
   m_ObjectHideFlags: 0

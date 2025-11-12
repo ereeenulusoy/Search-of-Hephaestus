@@ -5,22 +5,22 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
-    public GameObject endCapPrefab;
-
     [SerializeField] private Transform lastLevelPart;
+    [SerializeField] private Transform corridorPrefab;
+
     [SerializeField] private List<Transform> levelParts;
     private List<Transform> currentLevelParts;
     [SerializeField] private List<Transform> generatedLevelPart;
     [SerializeField] private SnapPoint nextSnapPoint;
+    [SerializeField] private int maxAllowedSequencedCorridor;
     private SnapPoint defaultSnappoint;
-
-    // EndCap için kalan SnapPoint'leri takip etme listesi
-    private List<SnapPoint> activeSnapPoints;
 
     [Space]
     [SerializeField] private float generationCooldown;
     private float cooldownTimer;
     private bool generationOver;
+
+    private int sequencedCorridorCount;
 
     // Art arda aynı prefab'ı engellemek için son seçilen prefab
     private Transform lastChosenPrefab;
@@ -33,6 +33,11 @@ public class LevelGenerator : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            InitializeGeneration();
+        }
+
         if (generationOver)
             return;
 
@@ -49,17 +54,17 @@ public class LevelGenerator : MonoBehaviour
             {
                 FinishGeneration();
             }
-
         }
     }
 
     [ContextMenu("Restart Generation")]
     private void InitializeGeneration()
     {
+        sequencedCorridorCount = 0;
+
         nextSnapPoint = defaultSnappoint;
         generationOver = false;
         currentLevelParts = new List<Transform>(levelParts);
-        activeSnapPoints = new List<SnapPoint>();
 
         // Son seçilen prefab'ı sıfırla
         lastChosenPrefab = null;
@@ -79,26 +84,40 @@ public class LevelGenerator : MonoBehaviour
     private void FinishGeneration()
     {
         generationOver = true;
+
         Transform levelPart = Instantiate(lastLevelPart);
-        LevelPart levelPartScript = levelPart.GetComponent<LevelPart>();
 
-        levelPartScript.SnapAndAlignPartTo(nextSnapPoint);
+        generatedLevelPart.Add(levelPart);
 
-        // Bitişten sonra EndCap temizliğini yap
-        CloseOpenEnds();
+        levelPart = DetectCollision(levelPart,true);
     }
-
 
     [ContextMenu("Create next level part")]
     private void GenerateNextLevelPart()
     {
         Transform chosenPrefab = ChooseRandomPart();
 
+        if (!generationOver)
+        {
+            lastChosenPrefab = chosenPrefab;
+        }
+
         Transform newPart = null;
         if (generationOver)
-            newPart = Instantiate(lastLevelPart);
+        {
+            return;
+        }
         else
+        {
             newPart = Instantiate(chosenPrefab);
+
+            newPart = DetectCollision(newPart);
+
+            if (newPart == null)
+            {
+                return;
+            }
+        }
 
         generatedLevelPart.Add(newPart);
 
@@ -107,34 +126,59 @@ public class LevelGenerator : MonoBehaviour
         // Yerleştirme ve Hizalama
         levelPartScript.SnapAndAlignPartTo(nextSnapPoint);
 
-        // **DUVAR KALDIRMA KODLARI BU NOKTADAN ÇIKARILMIŞTIR**
-
-        // Çakışma Kontrolü
-        if (levelPartScript.IntersectionDetected())
-        {
-            InitializeGeneration();
-            return;
-        }
-
-        // Başarılı yerleştirme sonrası, son seçilen prefab'ı kaydet
-        if (!generationOver)
-        {
-            lastChosenPrefab = chosenPrefab;
-        }
-
-        // SnapPoint Takibi ve İlerleme
-        // Kullanılan SnapPoint'i listeden çıkar
-        activeSnapPoints.Remove(nextSnapPoint);
-
-        // Yeni parça üzerindeki tüm SnapPoint'leri listeye ekle.
-        SnapPoint[] newPoints = newPart.GetComponentsInChildren<SnapPoint>();
-        foreach (SnapPoint point in newPoints)
-        {
-            activeSnapPoints.Add(point);
-        }
-
         // Bir sonraki noktayı ayarla
         nextSnapPoint = levelPartScript.GetExitPoint();
+        levelPartScript.CloseOtherOneWithCap(nextSnapPoint);
+    }
+    private Transform DetectCollision(Transform newPart, bool lastPart = false)
+    {
+        LevelPart part = newPart.GetComponent<LevelPart>();
+        part.SnapAndAlignPartTo(nextSnapPoint);
+
+        Physics.SyncTransforms();
+        bool collision = part.DetectCollision();
+
+        if (collision && !lastPart)
+        {
+            currentLevelParts.Add(lastChosenPrefab);
+            newPart.gameObject.SetActive(false);
+            Destroy(newPart.gameObject);
+
+            if (sequencedCorridorCount >= maxAllowedSequencedCorridor)
+            {
+                sequencedCorridorCount = 0;
+                InitializeGeneration();
+                return null;
+            }
+
+            newPart = Instantiate(corridorPrefab);
+            LevelPart newLevelPart = newPart.GetComponent<LevelPart>();
+            newLevelPart.SnapAndAlignPartTo(nextSnapPoint);
+
+            if (newLevelPart.DetectCollision())
+            {
+                sequencedCorridorCount = 0;
+                generatedLevelPart.Add(newPart);
+                InitializeGeneration();
+                return null;
+            }
+            else
+            {
+                sequencedCorridorCount++;
+            }
+        }
+        else if (collision && lastPart)
+        {
+            sequencedCorridorCount = 0;
+            generatedLevelPart.Add(newPart);
+            InitializeGeneration();
+            return null;
+        }
+        else if (!collision)
+        {
+            sequencedCorridorCount = 0;
+        }
+        return newPart;
     }
 
     // Art arda aynı prefab'ı engelleme mantığı
@@ -144,12 +188,6 @@ public class LevelGenerator : MonoBehaviour
 
         // Son kullanılan hariç, kullanılabilir parçaların geçici listesi
         List<Transform> availableParts = new List<Transform>(currentLevelParts);
-
-        if (lastChosenPrefab != null)
-        {
-            // Eğer son kullanılan parça mevcutsa, onu seçim havuzundan geçici olarak çıkar.
-            availableParts.Remove(lastChosenPrefab);
-        }
 
         // Kalan parçalardan rastgele seçim yap
         if (availableParts.Count > 0)
@@ -168,22 +206,5 @@ public class LevelGenerator : MonoBehaviour
         }
 
         return choosenPart;
-    }
-
-    // Açık kalan uçları EndCap ile kapatma mantığı
-    public void CloseOpenEnds()
-    {
-        // Oluşturma bittiğinde kalan her SnapPoint'i EndCap ile kapatır.
-        foreach (SnapPoint snapPoint in activeSnapPoints)
-        {
-            if (snapPoint != null)
-            {
-                GameObject endCap = Instantiate(endCapPrefab, snapPoint.transform.position, snapPoint.transform.rotation);
-                endCap.transform.SetParent(this.transform);
-                Destroy(snapPoint.gameObject);
-            }
-        }
-        activeSnapPoints.Clear();
-        Debug.Log("Harita oluşturma tamamlandı. Kalan tüm açık uçlar EndCap ile kapatıldı.");
     }
 }
