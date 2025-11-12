@@ -11,6 +11,7 @@ public class PlayerWeaponController : MonoBehaviour
 
     [SerializeField] private Transform weaponHolder;
     private Transform aim;
+    public bool isAimChasing = true;
     private void Start()
     {
         player = GetComponent<Player>();
@@ -19,11 +20,17 @@ public class PlayerWeaponController : MonoBehaviour
     }
     private void Update()
     {
-        if (player.movement.isStillDashing)
+        if (player.movement.isStillDashing || !isAimChasing)
             return;
+        ChasingAim();
+    }
+
+    private void ChasingAim()
+    {
         weaponHolder.LookAt(aim);
         gunPoint.LookAt(aim);
     }
+ 
     private void Shoot()
     {
         if (player.movement.isStillDashing)

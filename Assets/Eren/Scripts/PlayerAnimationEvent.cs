@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class PlayerAnimationEvent : MonoBehaviour
 {
-    PlayerVisualController playerVisualController;
+    Player player;
     void Start()
     {
-        playerVisualController = GetComponentInParent<PlayerVisualController>();
+        player = GetComponentInParent<Player>();
     }
 
 
-    private void FinishReload() => playerVisualController.IncreaseRigWeight(); 
+    private void FinishReload() => player.visual.IncreaseRigWeight(); 
+    private void BringBackAiming() => player.weapon.isAimChasing =true;
 }

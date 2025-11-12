@@ -3,6 +3,8 @@ using UnityEngine.Animations.Rigging;
 
 public class PlayerVisualController : MonoBehaviour
 {
+    private Player player;
+    
     [Header ("Rig")]
     [SerializeField] Rig aimRig;
     [SerializeField] Rig leftHandIKRig;
@@ -27,9 +29,12 @@ public class PlayerVisualController : MonoBehaviour
 
     private void Start()
     {
+        player = GetComponent<Player>();
         SwitchOn(pistolGun);
-
         anim = GetComponentInChildren<Animator>();
+
+        
+        
     }
     private void Update()
     {
@@ -41,6 +46,7 @@ public class PlayerVisualController : MonoBehaviour
             leftHandIKRig.weight = 0f;
 
             anim.SetTrigger("Reload");
+            player.weapon.isAimChasing = false;
         }
 
         if (shouldRigIncreased)
@@ -56,6 +62,7 @@ public class PlayerVisualController : MonoBehaviour
 
     }
 
+    
     public void IncreaseRigWeight() => shouldRigIncreased = true;
 
     private void SwitchWeaponVisuals()
@@ -63,13 +70,13 @@ public class PlayerVisualController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             SwitchOn(pistolGun);
-            SwitchAnimationLayers(2);
+            SwitchAnimationLayers(1);
 
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             SwitchOn(shotgun);
-            SwitchAnimationLayers(1);
+            SwitchAnimationLayers(2);
 
         }
     }
