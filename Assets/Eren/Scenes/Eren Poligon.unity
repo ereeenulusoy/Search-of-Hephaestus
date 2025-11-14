@@ -2394,7 +2394,8 @@ MonoBehaviour:
   bulletSpeed: 35
   gunPoint: {fileID: 8761559689220794281}
   weaponHolder: {fileID: 8617939713687333938}
-  isAimChasing: 1
+  isReloadFinished: 1
+  isShootFinished: 1
 --- !u!114 &1591322692248831472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3098,7 +3099,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &2543241681469814562
 GameObject:
   m_ObjectHideFlags: 0
@@ -5165,7 +5166,12 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'mixamorig:Head'\n\tTransform 'mixamorig:LeftArm'\n\tTransform
+    'mixamorig:RightHand'\n\tTransform 'mixamorig:LeftForeArm'\n\tTransform 'mixamorig:RightForeArm'\n\tTransform
+    'mixamorig:Neck'\n\tTransform 'mixamorig:LeftHand'\n\tTransform 'mixamorig:Head'\n\tTransform
+    'mixamorig:LeftArm'\n\tTransform 'mixamorig:RightHand'\n\tand more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -5420,7 +5426,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!143 &7748107529349198281
 CharacterController:
   m_ObjectHideFlags: 0
@@ -5460,14 +5466,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aimRig: {fileID: 4822405863267550827}
+  aimRigIncreaseSpeed: 3.25
+  leftHandTarget: {fileID: 3487349497266241707}
   leftHandIKRig: {fileID: 1692944477676519091}
-  rigIncreaseSpeed: 2.75
+  leftHandIK_IncreaseSpeed: 2.5
   gunTransform:
   - {fileID: 4239280159142922290}
   - {fileID: 6524103683420655458}
   pistolGun: {fileID: 4239280159142922290}
   shotgun: {fileID: 6524103683420655458}
-  leftHandTarget: {fileID: 3487349497266241707}
 --- !u!4 &7754723131193453218
 Transform:
   m_ObjectHideFlags: 0

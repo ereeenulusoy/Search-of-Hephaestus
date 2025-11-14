@@ -11,7 +11,8 @@ public class PlayerWeaponController : MonoBehaviour
 
     [SerializeField] private Transform weaponHolder;
     private Transform aim;
-    public bool isAimChasing = true;
+    public bool isReloadFinished = true;
+    public bool isShootFinished = true;
     private void Start()
     {
         player = GetComponent<Player>();
@@ -20,7 +21,7 @@ public class PlayerWeaponController : MonoBehaviour
     }
     private void Update()
     {
-        if (player.movement.isStillDashing || !isAimChasing)
+        if (player.movement.isStillDashing || !isReloadFinished || !isShootFinished)
             return;
         ChasingAim();
     }
@@ -35,8 +36,18 @@ public class PlayerWeaponController : MonoBehaviour
     {
         if (player.movement.isStillDashing)
             return;
-        
-        GameObject newBullet = Instantiate(bulletPrefab, gunPoint.position, Quaternion.LookRotation(gunPoint.forward));
+      
+        isShootFinished = false;
+        player.visual.ShootPauseRig();
+
+        if (!isReloadFinished)
+        {
+            isReloadFinished = true;
+            player.visual.IncreaseRigWeight();
+        }
+
+    
+    GameObject newBullet = Instantiate(bulletPrefab, gunPoint.position, Quaternion.LookRotation(gunPoint.forward));
         
         Rigidbody rbNewBullet = newBullet.GetComponent<Rigidbody>();
       
