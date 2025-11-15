@@ -7,8 +7,6 @@ using UnityEngine.UIElements;
 public class LevelPart : MonoBehaviour
 {
     [Header("Intersection check")]
-    [SerializeField] private float correctionAmount = 0.01f;
-
     [SerializeField] private Transform _boxCastOriginPoint;
     [SerializeField] private Vector3 _boxCastSize;
     [SerializeField] private Vector3 _boxCastOffset;
