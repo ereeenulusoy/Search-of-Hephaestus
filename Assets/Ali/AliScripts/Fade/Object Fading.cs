@@ -28,7 +28,7 @@ public class ObjectFading : MonoBehaviour
     {
         Color currentColor = mat.color;
         Color smoothColor = new Color(currentColor.r, currentColor.g, currentColor.b,
-            Mathf.Lerp(currentColor.a, 0.1f, 7 * Time.deltaTime));
+            Mathf.Lerp(currentColor.a, 0.2f, 7 * Time.deltaTime));
         mat.color = smoothColor;
     }
 
