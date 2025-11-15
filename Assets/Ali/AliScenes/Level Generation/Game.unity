@@ -262,6 +262,7 @@ GameObject:
   - component: {fileID: 728685707}
   - component: {fileID: 728685710}
   - component: {fileID: 728685711}
+  - component: {fileID: 728685712}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -421,6 +422,19 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &728685712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728685705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a42b0b7cd92cc4f89b4bb548188970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerRenderer: {fileID: 7241608311769694170}
 --- !u!1 &897513462
 GameObject:
   m_ObjectHideFlags: 0
@@ -9565,12 +9579,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWeapon:
+    weaponType: 0
     ammo: 10
     maxAmmo: 20
   bulletPrefab: {fileID: 6086380071879002497, guid: f6be0c690c505774ebe103f412764078, type: 3}
   bulletSpeed: 35
   gunPoint: {fileID: 449133171531974346}
   weaponHolder: {fileID: 8348549127640731369}
+  weaponSlots: []
   isReloadFinished: 1
   isShootFinished: 1
 --- !u!1 &5729107427996448824

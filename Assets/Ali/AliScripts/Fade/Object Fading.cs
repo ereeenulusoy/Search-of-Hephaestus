@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class ObjectFading : MonoBehaviour
 {
-    public float fadeSpeed, fadeAmount;
     private float originalOppacity;
     private Material mat;
     public bool DoFade = false;
@@ -29,7 +28,7 @@ public class ObjectFading : MonoBehaviour
     {
         Color currentColor = mat.color;
         Color smoothColor = new Color(currentColor.r, currentColor.g, currentColor.b,
-            Mathf.Lerp(currentColor.a, fadeAmount, fadeSpeed * Time.deltaTime));
+            Mathf.Lerp(currentColor.a, 0.1f, 7 * Time.deltaTime));
         mat.color = smoothColor;
     }
 
@@ -37,7 +36,7 @@ public class ObjectFading : MonoBehaviour
     {
         Color currentColor = mat.color;
         Color smoothColor = new Color(currentColor.r, currentColor.g, currentColor.b,
-            Mathf.Lerp(currentColor.a, originalOppacity, fadeSpeed * Time.deltaTime));
+            Mathf.Lerp(currentColor.a, originalOppacity, 7 * Time.deltaTime));
         mat.color = smoothColor;
     }
 }

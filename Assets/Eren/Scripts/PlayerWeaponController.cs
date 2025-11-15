@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerWeaponController : MonoBehaviour
@@ -14,7 +15,9 @@ public class PlayerWeaponController : MonoBehaviour
     [SerializeField] private Transform weaponHolder;
     private Transform aim;
 
-
+    [Header("Inventory")]
+    [SerializeField] private List<Weapon> weaponSlots;
+    // weapon içindeki bilgileri alýp ayrý ayrý weapondaki özellikleri kontrol eder. 0, 1 ...
     public bool isReloadFinished = true;
     public bool isShootFinished = true;
     
@@ -22,25 +25,24 @@ public class PlayerWeaponController : MonoBehaviour
     private void Start()
     {
         player = GetComponent<Player>();
-        player.controls.Character.Fire.performed += context => Shoot();
+        HandleInputEvents();
+
         aim = player.aim.Aim();
-
-
-        currentWeapon.ammo = currentWeapon.maxAmmo;
+        currentWeapon = weaponSlots[0];
     }
+
+
     private void Update()
     {
         if (player.movement.isStillDashing || !isReloadFinished || !isShootFinished)
             return;
         ChasingAim();
     }
-
-    private void ChasingAim()
+    
+    private void EquipWeapon(int i)
     {
-        weaponHolder.LookAt(aim);
-        gunPoint.LookAt(aim);
+        currentWeapon = weaponSlots[i]; 
     }
- 
     private void Shoot()
     {
         if (player.movement.isStillDashing || currentWeapon.ammo <= 0)
@@ -71,7 +73,11 @@ public class PlayerWeaponController : MonoBehaviour
         Destroy(newBullet, 5f);
         GetComponentInChildren<Animator>().SetTrigger("Fire");
     }
-
+    private void ChasingAim()
+    {
+        weaponHolder.LookAt(aim);
+        gunPoint.LookAt(aim);
+    }
     public Vector3 BulletDirection()
     {
         Vector3 direction = (aim.position - gunPoint.position).normalized;
@@ -84,6 +90,14 @@ public class PlayerWeaponController : MonoBehaviour
     }
 
     public Transform GunPoint() => gunPoint;
+    private void HandleInputEvents()
+    {
+        PlayerControls controls = player.controls;
+        controls.Character.Fire.performed += context => Shoot();
+        controls.Character.EquipSlot1.performed += context => EquipWeapon(0);
+        //Silahýn Listteki Indexini yaz. 0 -> Þuanda pistolgun'da.
+        controls.Character.EquipSlot2.performed += context => EquipWeapon(1);
+    }
     
    
 }
