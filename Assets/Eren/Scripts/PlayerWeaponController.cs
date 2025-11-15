@@ -2,22 +2,31 @@ using UnityEngine;
 
 public class PlayerWeaponController : MonoBehaviour
 {
-    private const float REFFERENCED_BULLET_SPEED = 20f;
     private Player player;
+    [SerializeField] private Weapon currentWeapon;
 
+
+    [Header("Bullet")]
+    private const float REFFERENCED_BULLET_SPEED = 20f;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private float bulletSpeed;
     [SerializeField] private Transform gunPoint;
-
     [SerializeField] private Transform weaponHolder;
     private Transform aim;
+
+
     public bool isReloadFinished = true;
     public bool isShootFinished = true;
+    
+    
     private void Start()
     {
         player = GetComponent<Player>();
         player.controls.Character.Fire.performed += context => Shoot();
         aim = player.aim.Aim();
+
+
+        currentWeapon.ammo = currentWeapon.maxAmmo;
     }
     private void Update()
     {
@@ -34,8 +43,13 @@ public class PlayerWeaponController : MonoBehaviour
  
     private void Shoot()
     {
-        if (player.movement.isStillDashing)
-            return;
+        if (player.movement.isStillDashing || currentWeapon.ammo <= 0)
+        {
+            Debug.Log("you cant shoot while dashing. ");
+            return;  
+        }
+
+        currentWeapon.ammo--;
       
         isShootFinished = false;
         player.visual.ShootPauseRig();
