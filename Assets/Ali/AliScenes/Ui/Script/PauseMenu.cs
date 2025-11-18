@@ -3,13 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    // Inspector'da atayacaðýmýz Pause Ekraný UI Paneli
+   
     public GameObject pauseMenuUI;
-
-    // Oyunun duraklatýlýp duraklatýlmadýðýný kontrol eden statik deðiþken
     public static bool GameIsPaused = false;
-
-    // Bu fonksiyonu ESC'ye basýldýðýnda çaðýracaðýz.
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -42,8 +38,8 @@ public class PauseMenu : MonoBehaviour
 
         // 4. FARE ÝMLECÝ YÖNETÝMÝ: 
         // Oyun devam ederken imleci gizle ve kitle (CursorLockMode.Locked).
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.visible = false;
     }
 
     // 2. PAUSE (Duraklat)
