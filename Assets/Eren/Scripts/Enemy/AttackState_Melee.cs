@@ -75,7 +75,7 @@ public class AttackState_Melee : EnemyState
 
     private AttackData UpdatedAttackData()
     {
-        List<AttackData> validAttacks = new List<AttackData>();
+        List<AttackData> validAttacks = new List<AttackData>(enemy.attackList);
 
         if (PlayerClose())
         validAttacks.RemoveAll(parameter => parameter.attackType == AttackType_Melee.Charge);
