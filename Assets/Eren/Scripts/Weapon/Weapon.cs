@@ -3,7 +3,8 @@ using UnityEngine;
 public enum WeaponType
 {
     Pistolgun,
-    Shotgun
+    Shotgun,
+    Trident
 }
 
 public enum ShootType
@@ -37,8 +38,16 @@ public class Weapon
     [Range(0.5f, 2)]
     public float equipmentSpeed = 1f;
 
-   
-    
+    [Header("Bullet Spread")]
+    public float baseSpread;
+    public float currentSpread = 2;
+    public float maximumSpread = 3;
+
+    public float spreadIncreaseRate = .15f;
+    public float spreadCooldown;
+
+    private float lastSpreadUpdateTime;
+
     public bool CanShoot()
     {
         if (HaveEnoughBullets() && ReadyToFire())
@@ -59,6 +68,34 @@ public class Weapon
         return false;
     }
 
+    #region Spread Methods
+    public Vector3 ApplySpread(Vector3 originalDirection)
+    {
+
+        UpdateSpread(); 
+
+        float randomizedValue = Random.Range(-currentSpread, currentSpread);
+
+        Quaternion spreadRotation = Quaternion.Euler(randomizedValue, randomizedValue, randomizedValue);
+
+        return spreadRotation * originalDirection;
+    }
+    
+    private void UpdateSpread()
+    {
+        if (Time.time >= lastSpreadUpdateTime + spreadCooldown)
+            currentSpread = baseSpread;
+        else
+            IncreaseSpread();
+
+            lastSpreadUpdateTime = Time.time;
+    }
+
+    private void IncreaseSpread()
+    {
+        currentSpread = Mathf.Clamp(currentSpread + spreadIncreaseRate, baseSpread, maximumSpread);
+    }
+    #endregion
 
     
     #region Reload Methods

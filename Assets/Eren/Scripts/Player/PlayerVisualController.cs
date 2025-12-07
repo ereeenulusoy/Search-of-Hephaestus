@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.Networking;
 
 public class PlayerVisualController : MonoBehaviour
 {
@@ -8,18 +9,23 @@ public class PlayerVisualController : MonoBehaviour
     [Header ("Rig")]
     [SerializeField] Rig aimRig;
     [SerializeField] private float aimRigIncreaseSpeed;
+    [SerializeField] private float aimRigDecreaseSpeed;
     private bool shouldAimRigIncreased;
+    private bool shouldAimRigDecreased;
 
     [Header("Left Hand IK")]
     [SerializeField] Transform leftHandTarget;
     [SerializeField] Rig leftHandIKRig;
     [SerializeField] float leftHandIK_IncreaseSpeed;
+    [SerializeField] float leftHandIK_DecreaseSpeed;
     private bool shouldLeftHandWeightIncreased;
+    private bool shouldLeftHandIKDecreased;
 
 
     private Animator anim;
 
     [SerializeField] private WeaponModel[] weaponModels;
+    [SerializeField] private BackupWeaponModel[] backupWeaponModels;
 
     
 
@@ -29,12 +35,15 @@ public class PlayerVisualController : MonoBehaviour
         player = GetComponent<Player>();
         anim = GetComponentInChildren<Animator>();
         weaponModels = GetComponentsInChildren<WeaponModel>(true);
+        backupWeaponModels = GetComponentsInChildren<BackupWeaponModel>(true);
     }
     private void Update()
     {
-       
-        UpdateAimRigWeight();
-        UpdateLeftHandIKWeight();
+        UpdateAimRigDecrease();
+        UpdateLeftHandIKDecrease();
+
+        UpdateAimRigIncrease();
+        UpdateLeftHandIKIncrease();
     }
 
     public WeaponModel CurrentWeaponModel()
@@ -80,6 +89,14 @@ public class PlayerVisualController : MonoBehaviour
     public void SwitchOnCurrentWeaponModel()
     {
         int animationIndex = ((int)CurrentWeaponModel().holdType);
+
+        SwitchOffWeaponModels();
+        SwitchOffBackupWeaponModels();
+        
+        if(!player.weapon.HasOnlyOneWeapon())
+        SwitchOnBackupWeaponModel();
+        
+
         SwitchAnimationLayers(animationIndex);
         CurrentWeaponModel().gameObject.SetActive(true);
 
@@ -94,6 +111,25 @@ public class PlayerVisualController : MonoBehaviour
         }
     }
 
+    public void SwitchOnBackupWeaponModel()
+    {
+        WeaponType weaponType = player.weapon.BackupWeapon().weaponType;
+
+        foreach (BackupWeaponModel backupWeaponModel in backupWeaponModels)
+        {
+            if (backupWeaponModel.weaponType == weaponType)
+            {
+                backupWeaponModel.gameObject.SetActive(true);
+            }
+        }
+    }
+    private void SwitchOffBackupWeaponModels()
+    {
+        foreach (BackupWeaponModel backupWeaponModel in backupWeaponModels)
+        {
+            backupWeaponModel.gameObject.SetActive(false);
+        }
+    }
 
     private void SwitchAnimationLayers(int layerIndex)
     {
@@ -118,7 +154,11 @@ public class PlayerVisualController : MonoBehaviour
     }
     public void IncreaseRigWeight() => shouldAimRigIncreased = true;
     public void IncreaseLeftHandIKWeight() => shouldLeftHandWeightIncreased =true;
-    private void UpdateAimRigWeight()
+
+    public void DecreaseRigWeight() => shouldAimRigDecreased = true;
+    public void DecreaseLeftHandIKWeight() => shouldLeftHandIKDecreased = true;
+
+    private void UpdateAimRigIncrease()
     {
         if (shouldAimRigIncreased)
         {
@@ -130,7 +170,20 @@ public class PlayerVisualController : MonoBehaviour
             
         }
     }
-    private void UpdateLeftHandIKWeight()
+    private void UpdateAimRigDecrease()
+    {
+        if (shouldAimRigDecreased)
+        {
+            aimRig.weight -= aimRigDecreaseSpeed * Time.deltaTime;
+
+            if (aimRig.weight <= 0.1f)
+            {
+                aimRig.weight = 0.1f;
+                shouldAimRigDecreased = false;
+            }
+        }
+    }
+    private void UpdateLeftHandIKIncrease()
     {
         if (shouldLeftHandWeightIncreased)
         {
@@ -140,10 +193,23 @@ public class PlayerVisualController : MonoBehaviour
                 shouldLeftHandWeightIncreased = false;
         }
     }
+    private void UpdateLeftHandIKDecrease()
+    {
+        if (shouldLeftHandIKDecreased)
+        {
+            leftHandIKRig.weight -= leftHandIK_DecreaseSpeed * Time.deltaTime;
+
+            if (leftHandIKRig.weight <= 0f)
+            {
+                leftHandIKRig.weight = 0f;
+                shouldLeftHandIKDecreased = false;
+            }
+        }
+    }
     private void WeaponDecreaseRig()
     {
-        aimRig.weight = 0.1f;
-        leftHandIKRig.weight = 0f;
+        DecreaseRigWeight();
+        DecreaseLeftHandIKWeight();
     }
    
     #endregion
