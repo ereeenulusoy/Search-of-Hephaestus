@@ -1668,6 +1668,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 815707787}
   m_CullTransparentMesh: 1
+--- !u!1001 &844384205
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 92a865c01a208cb42a0d70ff66a57357, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.4589541
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 92a865c01a208cb42a0d70ff66a57357, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0027265549
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 92a865c01a208cb42a0d70ff66a57357, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.367318
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 92a865c01a208cb42a0d70ff66a57357, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 92a865c01a208cb42a0d70ff66a57357, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 92a865c01a208cb42a0d70ff66a57357, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 92a865c01a208cb42a0d70ff66a57357, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 92a865c01a208cb42a0d70ff66a57357, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 92a865c01a208cb42a0d70ff66a57357, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 92a865c01a208cb42a0d70ff66a57357, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 92a865c01a208cb42a0d70ff66a57357, type: 3}
+      propertyPath: m_Name
+      value: fish
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 92a865c01a208cb42a0d70ff66a57357, type: 3}
 --- !u!1 &868370741
 GameObject:
   m_ObjectHideFlags: 0
@@ -5358,6 +5415,11 @@ MonoBehaviour:
     magazineCapacity: 6
     reloadSpeed: 0.9
     equipmentSpeed: 0.85
+    baseSpread: 0
+    currentSpread: 2
+    maximumSpread: 3
+    spreadIncreaseRate: 0.15
+    spreadCooldown: 0
 --- !u!1 &781538911711315972
 GameObject:
   m_ObjectHideFlags: 0
@@ -6232,6 +6294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72f907416f6fdf94f9cbc1539d7880c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponRotationSpeed: 12
   bulletImpactForce: 70
   bulletPrefab: {fileID: 6086380071879002497, guid: f6be0c690c505774ebe103f412764078, type: 3}
   bulletSpeed: 35
@@ -6246,6 +6309,11 @@ MonoBehaviour:
     magazineCapacity: 20
     reloadSpeed: 1.1
     equipmentSpeed: 1.2
+    baseSpread: 0
+    currentSpread: 2
+    maximumSpread: 3
+    spreadIncreaseRate: 0.15
+    spreadCooldown: 0
   currentWeapon:
     weaponType: 0
     shootType: 0
@@ -6254,6 +6322,11 @@ MonoBehaviour:
     magazineCapacity: 0
     reloadSpeed: 1
     equipmentSpeed: 1
+    baseSpread: 0
+    currentSpread: 2
+    maximumSpread: 3
+    spreadIncreaseRate: 0.15
+    spreadCooldown: 0
 --- !u!114 &1564024773599194497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10665,10 +10738,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aimRig: {fileID: 4135545326125318988}
   aimRigIncreaseSpeed: 3.25
+  aimRigDecreaseSpeed: 0
   leftHandTarget: {fileID: 6151754680024612331}
   leftHandIKRig: {fileID: 7044816872677161462}
   leftHandIK_IncreaseSpeed: 2.5
+  leftHandIK_DecreaseSpeed: 0
   weaponModels: []
+  backupWeaponModels: []
 --- !u!23 &5077456155670982683
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17165,3 +17241,4 @@ SceneRoots:
   - {fileID: 272475055}
   - {fileID: 1789034487}
   - {fileID: 1711276629}
+  - {fileID: 844384205}
