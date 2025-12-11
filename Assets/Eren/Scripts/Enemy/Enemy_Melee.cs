@@ -11,7 +11,7 @@ public struct AttackData
     public float moveSpeed;
     public float attackIndex;
 
-    [Range(1,2)]
+    [Range(1,10)]
     public float animationSpeed;
     public AttackType_Melee attackType;
 }

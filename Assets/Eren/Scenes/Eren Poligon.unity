@@ -752,22 +752,22 @@ MonoBehaviour:
   attackData:
     attackName: 
     attackRange: 2.5
-    moveSpeed: 4
+    moveSpeed: 4.5
     attackIndex: 1
-    animationSpeed: 1.7
+    animationSpeed: 1
     attackType: 1
   attackList:
   - attackName: Spinning Attack
     attackRange: 2.5
-    moveSpeed: 4
+    moveSpeed: 4.5
     attackIndex: 0
-    animationSpeed: 0
+    animationSpeed: 1
     attackType: 1
   - attackName: Sword Slash 1
     attackRange: 1.5
     moveSpeed: 1
     attackIndex: 1
-    animationSpeed: 1.7
+    animationSpeed: 1.6
     attackType: 0
   hiddenWeapon: {fileID: 894265370}
   pulledWeapon: {fileID: 5445344587782117749}
@@ -3281,8 +3281,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.00000005960463, y: 0.00000005960467, z: -2.797758e-14, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 140656714}
   m_Father: {fileID: 1736875034}
@@ -3714,60 +3714,96 @@ MonoBehaviour:
   weaponRotationSpeed: 12
   bulletImpactForce: 70
   bulletPrefab: {fileID: 6086380071879002497, guid: f6be0c690c505774ebe103f412764078, type: 3}
-  bulletSpeed: 35
+  bulletSpeed: 30
   gunPoint: {fileID: 782435131900106578}
   weaponHolder: {fileID: 7603008003544048325}
   maxSlots: 3
   weaponSlots:
   - weaponType: 0
     shootType: 1
-    fireRate: 7
+    defaultFireRate: 6
+    bulletsPerShot: 1
+    fireRate: 6
+    baseSpread: 1.8
+    currentSpread: 1.8
+    maximumSpread: 8
+    defaultSpreadIncreaseRate: 0.5
+    spreadIncreaseRate: 0.5
+    burstSpreadIncreaseRate: 0.2
+    spreadCooldown: 0.6
+    burstModeAvailable: 1
+    burstActive: 0
+    burstBulletsPerShot: 4
+    burstFireRate: 1
+    burstFireDelay: 0.13
     bulletsInMagazine: 20
     magazineCapacity: 20
     reloadSpeed: 1.1
     equipmentSpeed: 1.2
+  - weaponType: 1
+    shootType: 0
+    defaultFireRate: 0
+    bulletsPerShot: 5
+    fireRate: 1
+    baseSpread: 15
+    currentSpread: 15
+    maximumSpread: 15
+    defaultSpreadIncreaseRate: 0.2
+    spreadIncreaseRate: 0.15
+    burstSpreadIncreaseRate: 0.2
+    spreadCooldown: 0
+    burstModeAvailable: 1
+    burstActive: 0
+    burstBulletsPerShot: 0
+    burstFireRate: 0
+    burstFireDelay: 0
+    bulletsInMagazine: 20
+    magazineCapacity: 20
+    reloadSpeed: 0.9
+    equipmentSpeed: 0.75
+  - weaponType: 2
+    shootType: 1
+    defaultFireRate: 0
+    bulletsPerShot: 1
+    fireRate: 4
     baseSpread: 0.5
     currentSpread: 0.5
     maximumSpread: 4
+    defaultSpreadIncreaseRate: 0.2
     spreadIncreaseRate: 0.2
+    burstSpreadIncreaseRate: 0.2
     spreadCooldown: 1
-  - weaponType: 1
-    shootType: 0
-    fireRate: 1
-    bulletsInMagazine: 6
-    magazineCapacity: 6
-    reloadSpeed: 0.9
-    equipmentSpeed: 0.75
-    baseSpread: 0.5
-    currentSpread: 0.5
-    maximumSpread: 5
-    spreadIncreaseRate: 0.15
-    spreadCooldown: 1
-  - weaponType: 2
-    shootType: 1
-    fireRate: 4
+    burstModeAvailable: 0
+    burstActive: 0
+    burstBulletsPerShot: 0
+    burstFireRate: 0
+    burstFireDelay: 0
     bulletsInMagazine: 30
     magazineCapacity: 30
     reloadSpeed: 0.9
     equipmentSpeed: 0.8
-    baseSpread: 0.5
-    currentSpread: 0.5
-    maximumSpread: 4
-    spreadIncreaseRate: 0.2
-    spreadCooldown: 1
   currentWeapon:
     weaponType: 0
     shootType: 0
+    defaultFireRate: 0
+    bulletsPerShot: 0
     fireRate: 1
+    baseSpread: 0.5
+    currentSpread: 0.5
+    maximumSpread: 4
+    defaultSpreadIncreaseRate: 0.2
+    spreadIncreaseRate: 0.2
+    burstSpreadIncreaseRate: 0.2
+    spreadCooldown: 1
+    burstModeAvailable: 0
+    burstActive: 0
+    burstBulletsPerShot: 0
+    burstFireRate: 0
+    burstFireDelay: 0.1
     bulletsInMagazine: 0
     magazineCapacity: 0
     reloadSpeed: 1
     equipmentSpeed: 1
-    baseSpread: 0.5
-    currentSpread: 0.5
-    maximumSpread: 4
-    spreadIncreaseRate: 0.2
-    spreadCooldown: 1
 --- !u!23 &3497705215184408453
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4353,16 +4389,25 @@ MonoBehaviour:
   weapon:
     weaponType: 1
     shootType: 0
+    defaultFireRate: 0
+    bulletsPerShot: 0
     fireRate: 1
+    baseSpread: 0.5
+    currentSpread: 0.5
+    maximumSpread: 5
+    defaultSpreadIncreaseRate: 0.2
+    spreadIncreaseRate: 0.15
+    burstSpreadIncreaseRate: 0.2
+    spreadCooldown: 1
+    burstModeAvailable: 0
+    burstActive: 0
+    burstBulletsPerShot: 0
+    burstFireRate: 0
+    burstFireDelay: 0.1
     bulletsInMagazine: 6
     magazineCapacity: 6
     reloadSpeed: 0.9
     equipmentSpeed: 0.85
-    baseSpread: 0.5
-    currentSpread: 0.5
-    maximumSpread: 5
-    spreadIncreaseRate: 0.15
-    spreadCooldown: 1
 --- !u!1 &4296464275329304278
 GameObject:
   m_ObjectHideFlags: 0
@@ -6177,7 +6222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 6086380071879002497, guid: f6be0c690c505774ebe103f412764078, type: 3}
-  poolSize: 30
+  poolSize: 50
 --- !u!4 &6480985088733637672
 Transform:
   m_ObjectHideFlags: 0
@@ -6208,16 +6253,25 @@ MonoBehaviour:
   weapon:
     weaponType: 2
     shootType: 1
+    defaultFireRate: 0
+    bulletsPerShot: 0
     fireRate: 4
+    baseSpread: 0.5
+    currentSpread: 0.5
+    maximumSpread: 4
+    defaultSpreadIncreaseRate: 0.2
+    spreadIncreaseRate: 0.2
+    burstSpreadIncreaseRate: 0.2
+    spreadCooldown: 1
+    burstModeAvailable: 0
+    burstActive: 0
+    burstBulletsPerShot: 0
+    burstFireRate: 0
+    burstFireDelay: 0.1
     bulletsInMagazine: 30
     magazineCapacity: 30
     reloadSpeed: 0.9
     equipmentSpeed: 0.85
-    baseSpread: 0.5
-    currentSpread: 0.5
-    maximumSpread: 4
-    spreadIncreaseRate: 0.2
-    spreadCooldown: 1
 --- !u!4 &6514724496761579667
 Transform:
   m_ObjectHideFlags: 0

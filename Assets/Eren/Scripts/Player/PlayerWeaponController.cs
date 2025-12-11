@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerWeaponController : MonoBehaviour
@@ -49,9 +50,10 @@ public class PlayerWeaponController : MonoBehaviour
         ChasingAim();
 
         if (isShooting)
-        {
             Shoot();
-        }
+        
+        if(Input.GetKeyDown(KeyCode.T))
+            currentWeapon.ToggleBurst();
     }
     
     public Weapon CurrentWeapon() => currentWeapon;
@@ -98,19 +100,53 @@ public class PlayerWeaponController : MonoBehaviour
 
         player.visual.SwitchOnBackupWeaponModel();
     }
+
+    private IEnumerator BurstFire()
+    {
+        SetWeaponReady(false);
+
+         for (int i = 1; i <= currentWeapon.bulletsPerShot; i++)
+        {
+            FireSingleBullet();
+
+            yield return new WaitForSeconds(currentWeapon.burstFireDelay);
+
+            if (i >= currentWeapon.bulletsPerShot)
+                SetWeaponReady(true);   
+
+        }
+    }
     private void Shoot()
     {
         if (player.movement.isStillDashing || !currentWeapon.CanShoot() || !WeaponReady())
         {
-            return;  
+            return;
         }
         if (currentWeapon.shootType == ShootType.Single)
         {
             isShooting = false;
         }
-        GameObject newBullet = ObjectPool.instance.GetBullet();
-        //GameObject newBullet = Instantiate(bulletPrefab, gunPoint.position, Quaternion.LookRotation(gunPoint.forward));
+        GetComponentInChildren<Animator>().SetTrigger("Fire");
         
+        if (currentWeapon.BurstActivated() == true)
+        {
+
+        StartCoroutine(BurstFire());    
+        return;
+
+        }
+        
+        FireSingleBullet();
+
+    }
+
+    private void FireSingleBullet()
+    {
+        currentWeapon.bulletsInMagazine--;
+
+
+        GameObject newBullet = ObjectPool.instance.GetBullet();
+
         newBullet.transform.position = gunPoint.position;
         newBullet.transform.rotation = Quaternion.LookRotation(gunPoint.forward);
 
@@ -120,12 +156,9 @@ public class PlayerWeaponController : MonoBehaviour
         bulletScript.BulletSetup(bulletImpactForce);
 
         Vector3 bulletsDirection = currentWeapon.ApplySpread(BulletDirection());
-      
+
         rbNewBullet.mass = REFFERENCED_BULLET_SPEED / bulletSpeed;
         rbNewBullet.velocity = bulletsDirection * bulletSpeed;
-
-       
-        GetComponentInChildren<Animator>().SetTrigger("Fire");
     }
 
     private void ChasingAim()
