@@ -1,148 +1,126 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using UnityEngine.Rendering.PostProcessing;
 using TMPro;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class DisplaySettings : MonoBehaviour
 {
+    [Header("UI Elemanlarý")]
     public Slider brightnessSlider;
-    public PostProcessVolume postProcessVolume;
     public TMP_Dropdown resolutionDropdown;
     public Toggle fullscreenToggle;
     public Toggle vsyncToggle;
-    private FloatParameter postExposure = new FloatParameter { value = 0f };
 
-    private Resolution[] resolutions; // Cihazýn desteklediði çözünürlükler listesi
+    [Header("URP Ayarlarý")]
+    // Artýk bunu Inspector'dan atamak zorunda deðilsiniz, kod kendi bulacak.
+    public Volume globalVolume;
+    private ColorAdjustments colorAdjustments;
 
-    void Awake()
+    private Resolution[] resolutions;
+
+    void Awake() // Start yerine Awake daha güvenlidir
     {
-        // 1. Çözünürlük listesini al ve Dropdown'ý doldur
+        // 1. EÐER GLOBAL VOLUME ATANMAMIÞSA OTOMATÝK BUL
+        if (globalVolume == null)
+        {
+            // Sahnedeki ilk Volume bileþenini bulur
+            globalVolume = FindObjectOfType<Volume>();
+        }
+
+        // 2. PROFÝLÝ VE EFEKTÝ KONTROL ET
+        if (globalVolume != null && globalVolume.profile.TryGet(out colorAdjustments))
+        {
+            // Baþarýlý, efekt bulundu.
+        }
+        else
+        {
+            // Eðer yeni sahnede Color Adjustments yoksa hata vermesin ama uyarsýn
+            Debug.LogWarning("Bu sahnede Global Volume veya Color Adjustments efekti bulunamadý!");
+        }
+
+        // Diðer baþlangýç iþlemleri...
         LoadAvailableResolutions();
 
-        // 2. UI elemanlarýna dinleyici (listener) ekle
         resolutionDropdown.onValueChanged.AddListener(SetResolution);
         fullscreenToggle.onValueChanged.AddListener(SetFullscreen);
         vsyncToggle.onValueChanged.AddListener(SetVSync);
+        brightnessSlider.onValueChanged.AddListener(SetBrightness);
 
-        // 3. Kayýtlý Ayarlarý Yükle (Eðer daha önce kaydedilmiþse)
+        // 3. AYARLARI HEMEN YÜKLE VE UYGULA
         LoadSettings();
     }
 
-    // --- AÞAMA AÞAMA METOTLAR ---
-
+    // --- (Diðer fonksiyonlar aynen kalacak) ---
     // A. Çözünürlükleri Hazýrlama
     void LoadAvailableResolutions()
     {
-        // Unity'den cihazýn desteklediði tüm çözünürlükleri al
         resolutions = Screen.resolutions;
         resolutionDropdown.ClearOptions();
-
         List<string> options = new List<string>();
         int currentResolutionIndex = 0;
-
         for (int i = 0; i < resolutions.Length; i++)
         {
-            // Dropdown için "1920x1080" gibi bir metin oluþtur
             string option = resolutions[i].width + "x" + resolutions[i].height;
             options.Add(option);
-
-            // Eðer bu çözünürlük, þu anki kullanýlan çözünürlükse, index'i kaydet
             if (resolutions[i].width == Screen.currentResolution.width &&
                 resolutions[i].height == Screen.currentResolution.height)
-            {
                 currentResolutionIndex = i;
-            }
         }
-
-        // Dropdown'a seçenekleri ekle ve þu anki çözünürlüðü seçili yap
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
     }
 
-    // B. Ayarlarý Uygulama
-
-    // Çözünürlüðü Uygula
     public void SetResolution(int resolutionIndex)
     {
         Resolution resolution = resolutions[resolutionIndex];
-        // Unity'nin Screen API'ýný kullanarak çözünürlüðü deðiþtir
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
-        Debug.Log($"Çözünürlük ayarlandý: {resolution.width}x{resolution.height}");
     }
 
-    // Tam Ekraný Uygula
-    public void SetFullscreen(bool isFullscreen)
-    {
-        // Unity'nin Screen API'ýný kullanarak tam ekran durumunu deðiþtir
-        Screen.fullScreen = isFullscreen;
-        Debug.Log($"Tam Ekran: {isFullscreen}");
-    }
+    public void SetFullscreen(bool isFullscreen) => Screen.fullScreen = isFullscreen;
 
-    // VSync'i Uygula
-    public void SetVSync(bool isVSync)
-    {
-        // QualitySettings API'ýný kullanarak VSync'i aç/kapat
-        // 1: Açýk (monitör hýzýyla senkronize), 0: Kapalý
-        QualitySettings.vSyncCount = isVSync ? 1 : 0;
-        Debug.Log($"VSync: {isVSync}");
-    }
+    public void SetVSync(bool isVSync) => QualitySettings.vSyncCount = isVSync ? 1 : 0;
+
     public void SetBrightness(float value)
     {
-        // Slider deðerini -3 ile 3 arasýnda bir Post Exposure deðerine dönüþtürmek yaygýndýr
-        // Bu aralýk, parlaklýkta anlamlý bir deðiþiklik saðlar.
-        float exposureValue = Mathf.Lerp(-3f, 3f, value);
-
-        // 1. Post Process Profile'ý al (Color Grading efekti için)
-        ColorGrading colorGrading;
-        if (postProcessVolume.profile.TryGetSettings(out colorGrading))
+        // colorAdjustments her sahnede yeniden bulunduðu için null olmaz
+        if (colorAdjustments != null)
         {
-            // 2. Post Exposure deðerini ayarla
-            // Eðer Post Exposure deðerini Inspector'da kontrol edilebilir yapmadýysanýz, bu satýr hata verecektir.
-            colorGrading.postExposure.Override(exposureValue);
+            colorAdjustments.postExposure.value = value;
         }
-
-        Debug.Log($"Parlaklýk (Post Exposure) ayarlandý: {exposureValue}");
-        // PlayerPrefs'e kaydetme mantýðý SaveSettings() içinde yer almalýdýr.
     }
 
-    // C. Kaydetme ve Yükleme
-
-    // Ayarlarý kalýcý olarak kaydet (APPLY butonuna baðlayýn)
     public void SaveSettings()
     {
-        // Seçilen Dropdown index'ini ve Toggle durumlarýný kaydet
         PlayerPrefs.SetInt("ResolutionIndex", resolutionDropdown.value);
         PlayerPrefs.SetInt("Fullscreen", fullscreenToggle.isOn ? 1 : 0);
         PlayerPrefs.SetInt("VSync", vsyncToggle.isOn ? 1 : 0);
         PlayerPrefs.SetFloat("BrightnessValue", brightnessSlider.value);
-
-        // Tüm deðiþiklikleri diske yaz
         PlayerPrefs.Save();
-        Debug.Log("Display Ayarlarý Kaydedildi.");
     }
 
-    // Kayýtlý ayarlarý yükle (Menü açýldýðýnda veya CANCEL'a basýldýðýnda çaðrýlýr)
     public void LoadSettings()
     {
-        // Varsayýlan deðerler: Son kaydedilen deðerler, yoksa mevcut deðerler
         int resIndex = PlayerPrefs.GetInt("ResolutionIndex", resolutionDropdown.value);
         int fullscreen = PlayerPrefs.GetInt("Fullscreen", Screen.fullScreen ? 1 : 0);
         int vsync = PlayerPrefs.GetInt("VSync", QualitySettings.vSyncCount);
-        float brightness = PlayerPrefs.GetFloat("BrightnessValue", 0.5f); // 0.5f varsayýlan orta deðer
+        float brightness = PlayerPrefs.GetFloat("BrightnessValue", 0f);
 
-
-        // UI elemanlarýný yüklenen deðerlere ayarla
         resolutionDropdown.value = resIndex;
         fullscreenToggle.isOn = fullscreen == 1;
         vsyncToggle.isOn = vsync == 1;
+
+        // Önemli: Slider'ý güncellediðimizde 'OnValueChanged' tetiklenir 
+        // ve SetBrightness otomatik çalýþýr.
         brightnessSlider.value = brightness;
-        SetBrightness(brightness);
+
         SetResolution(resIndex);
         SetFullscreen(fullscreen == 1);
         SetVSync(vsync == 1);
 
-        resolutionDropdown.RefreshShownValue();
+        // Ekstra garanti olsun diye manuel de çaðýrabiliriz
+        SetBrightness(brightness);
     }
 }
