@@ -4,15 +4,69 @@ using UnityEngine.XR;
 public class Bullet : MonoBehaviour
 {
     public float impactForce;
-    private Rigidbody rb => GetComponent<Rigidbody>();
+    
+    private BoxCollider cd;
+    private Rigidbody rb;
+    private MeshRenderer meshRenderer;
+    private TrailRenderer trailRenderer;
+
     [SerializeField] private GameObject bulletImpactVfx;
 
+    private Vector3 startPosition;
+    private float flyDistance;
+    private bool bulletDisabled = false;
 
-    public void BulletSetup(float impactForce)
+    private void Awake()
     {
-        this.impactForce = impactForce;
+        cd = GetComponent<BoxCollider>();
+        rb = GetComponent<Rigidbody>();
+        meshRenderer = GetComponent<MeshRenderer>();
+        trailRenderer = GetComponent<TrailRenderer>();
     }
- 
+    public void BulletSetup(float flyDistance, float impactForce)
+    {
+        bulletDisabled = false;
+        cd.enabled = true;
+        meshRenderer.enabled = true;
+
+        trailRenderer.time = .2f;
+        this.impactForce = impactForce;
+
+        startPosition = transform.position;
+        this.flyDistance = flyDistance;
+
+    }
+
+    private void Update()
+    {
+        FadeTrails();
+        DisableBullet();
+        ReturnBulletsToPool();
+
+    }
+
+    private void ReturnBulletsToPool()
+    {
+        if (trailRenderer.time < 0)
+            ObjectPool.instance.ReturnBullet(gameObject);
+    }
+
+    private void DisableBullet()
+    {
+        if (Vector3.Distance(startPosition, transform.position) > flyDistance && !bulletDisabled)
+        {
+            cd.enabled = false;
+            meshRenderer.enabled = false;
+            bulletDisabled = true;
+        }
+    }
+
+    private void FadeTrails()
+    {
+        if (Vector3.Distance(startPosition, transform.position) > flyDistance - 1.5f)
+            trailRenderer.time -= 2 * Time.deltaTime;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();

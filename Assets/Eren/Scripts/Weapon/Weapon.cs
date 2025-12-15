@@ -58,7 +58,8 @@ public class Weapon
     [Range(0.5f, 2)]
     public float equipmentSpeed = 1f;
 
-
+    [Range(1, 20)]
+    public float gunDistance = 6f;
 
     #region Burst Methods
 
