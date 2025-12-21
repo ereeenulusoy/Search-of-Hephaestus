@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8546553601734742960}
   - component: {fileID: 925564198341950998}
   - component: {fileID: 3152264935833351433}
+  - component: {fileID: 4819773404252089922}
   m_Layer: 6
   m_Name: Ground_01 (7)
   m_TagString: Zemin
@@ -105,6 +106,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 20, y: 0, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4819773404252089922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150584822692797695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 192
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.05
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 3800a21ac62e27842b22d8a35c5f2beb, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &170616159103495540
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,6 +624,7 @@ GameObject:
   - component: {fileID: 6871663982689358254}
   - component: {fileID: 2548407539362814722}
   - component: {fileID: 7718106411555641623}
+  - component: {fileID: 5202023132755942004}
   m_Layer: 0
   m_Name: BronzFloorChese (1)
   m_TagString: Untagged
@@ -685,6 +718,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 20.000004, y: 0.04363326, z: 20.000004}
   m_Center: {x: 0, y: 0, z: -0.0000038146973}
+--- !u!114 &5202023132755942004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023373557354739255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 192
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.05
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 6ff0b14ec93fcdb4e94dfc7491604d64, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &1828245925456997365
 GameObject:
   m_ObjectHideFlags: 0
@@ -1173,6 +1237,7 @@ GameObject:
   - component: {fileID: 2535699523229269143}
   - component: {fileID: 5162043239922955847}
   - component: {fileID: 3579189408661746943}
+  - component: {fileID: 8640203690724240379}
   m_Layer: 0
   m_Name: BronzFloorChese
   m_TagString: Untagged
@@ -1264,8 +1329,39 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 20, y: 0.04363326, z: 20}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 20.016674, y: 0.04363326, z: 20}
+  m_Center: {x: -0.008337021, y: 0, z: 0}
+--- !u!114 &8640203690724240379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2574946306280303657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 192
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.05
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: ccfe96854c2725d4d9da661471520cc6, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &2649600612728613690
 GameObject:
   m_ObjectHideFlags: 0
@@ -1789,6 +1885,7 @@ GameObject:
   - component: {fileID: 4720337578747292741}
   - component: {fileID: 7311508244349007364}
   - component: {fileID: 5649807482492200294}
+  - component: {fileID: 6628053302069431101}
   m_Layer: 0
   m_Name: BronzFloorChese (3)
   m_TagString: Untagged
@@ -1882,6 +1979,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 20.000004, y: 0.04363326, z: 20.000004}
   m_Center: {x: 0, y: 0, z: 0.0000014305115}
+--- !u!114 &6628053302069431101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3491327388140211285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 192
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.05
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 6c3dba05506d3094c8c0adec54fe174b, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &3576925528610810427
 GameObject:
   m_ObjectHideFlags: 0
@@ -2046,6 +2174,7 @@ GameObject:
   - component: {fileID: 1250170719021409300}
   - component: {fileID: 7083366416087693092}
   - component: {fileID: 4478926914942645913}
+  - component: {fileID: 3024146620259514808}
   m_Layer: 6
   m_Name: Ground_01 (6)
   m_TagString: Zemin
@@ -2139,6 +2268,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 20, y: 0.043632355, z: 20}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3024146620259514808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4206027812037049193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 192
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.05
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 46b2bc4bdb292534e81cd50e38739f07, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &4304009767695492697
 GameObject:
   m_ObjectHideFlags: 0
@@ -2624,6 +2784,7 @@ GameObject:
   - component: {fileID: 1570174521239937628}
   - component: {fileID: 5533191092175335863}
   - component: {fileID: 850413890830256586}
+  - component: {fileID: 1251062308501148288}
   m_Layer: 6
   m_Name: Ground_01 (2)
   m_TagString: Zemin
@@ -2717,6 +2878,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 20, y: 0.043632355, z: 20}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1251062308501148288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5681985211648107422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 192
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.05
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 303dc944587fbca45bc2dec12210deb0, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &5918631442485754568
 GameObject:
   m_ObjectHideFlags: 0
@@ -3486,6 +3678,7 @@ GameObject:
   - component: {fileID: 3129546616486232250}
   - component: {fileID: 8056202231670701676}
   - component: {fileID: 6473478858651473129}
+  - component: {fileID: 6161955339505435781}
   m_Layer: 6
   m_Name: Ground_01 (3)
   m_TagString: Zemin
@@ -3579,6 +3772,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 20, y: 0.043632355, z: 20}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6161955339505435781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6755149869210686923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 192
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.05
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 69c6e5acbb6617a4dafc2755135e1934, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &7608632634566696427
 GameObject:
   m_ObjectHideFlags: 0
@@ -3591,6 +3815,7 @@ GameObject:
   - component: {fileID: 8101516657894940697}
   - component: {fileID: 2344678221917478618}
   - component: {fileID: 1433093637142464860}
+  - component: {fileID: 4611417768458273127}
   m_Layer: 6
   m_Name: Ground_01 (4)
   m_TagString: Zemin
@@ -3684,6 +3909,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 20, y: 0.043632355, z: 20}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4611417768458273127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608632634566696427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 192
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.05
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: c5f14d573e80b7a48800f9d8fe61ef91, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &7622657613166544382
 GameObject:
   m_ObjectHideFlags: 0
@@ -3696,6 +3952,7 @@ GameObject:
   - component: {fileID: 1927520457238842616}
   - component: {fileID: 8443752834731765282}
   - component: {fileID: 1745402022790106640}
+  - component: {fileID: 5381311112729712249}
   m_Layer: 0
   m_Name: BronzFloorChese (2)
   m_TagString: Untagged
@@ -3789,6 +4046,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 20, y: 0.04363326, z: 20}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5381311112729712249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7622657613166544382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 192
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.05
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 14971018d83bc8c4982a76435c95a1ba, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &7793942384696990579
 GameObject:
   m_ObjectHideFlags: 0
@@ -4448,6 +4736,7 @@ GameObject:
   - component: {fileID: 6950021346620937656}
   - component: {fileID: 5486790274587611902}
   - component: {fileID: 4803103867489141949}
+  - component: {fileID: 5855389088553147611}
   m_Layer: 6
   m_Name: Ground_01 (5)
   m_TagString: Zemin
@@ -4541,6 +4830,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 20, y: 0.043632355, z: 20}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5855389088553147611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9021630546003361511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 192
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.05
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 92264b581858e044c9e7af76126a4f92, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &9189630881324183475
 GameObject:
   m_ObjectHideFlags: 0
