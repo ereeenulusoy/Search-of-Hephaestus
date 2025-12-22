@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 
 
 public class LevelGenerator : MonoBehaviour
@@ -25,8 +27,13 @@ public class LevelGenerator : MonoBehaviour
     // Art arda aynı prefab'ı engellemek için son seçilen prefab
     private Transform lastChosenPrefab;
 
+    [Header("Navmesh")]//Eren
+    [SerializeField] private NavMeshSurface navMeshSurface;
+    private List<Enemy> spawnedEnemies = new List<Enemy>();
+
     private void Start()
     {
+        spawnedEnemies.Clear(); //Eren
         defaultSnappoint = nextSnapPoint;
         InitializeGeneration();
     }
@@ -57,9 +64,20 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
+    private void RegisterEnemiesInPart(Transform levelPart)
+    {
+        // Odanın içindeki tüm Enemy scriptine sahip robotları bul (kapalı olsalar bile)
+        Enemy[] enemiesInPart = levelPart.GetComponentsInChildren<Enemy>(true);
+        foreach (Enemy e in enemiesInPart)
+        {
+            spawnedEnemies.Add(e);
+        }
+    }
+
     [ContextMenu("Restart Generation")]
     private void InitializeGeneration()
     {
+        StopAllCoroutines();
         sequencedCorridorCount = 0;
 
         nextSnapPoint = defaultSnappoint;
@@ -79,6 +97,7 @@ public class LevelGenerator : MonoBehaviour
             Destroy(t.gameObject);
         }
         generatedLevelPart = new List<Transform>();
+        spawnedEnemies.Clear();
     }
 
     private void FinishGeneration()
@@ -89,7 +108,44 @@ public class LevelGenerator : MonoBehaviour
 
         generatedLevelPart.Add(levelPart);
 
+        RegisterEnemiesInPart(levelPart);
         levelPart = DetectCollision(levelPart,true);
+
+        if (levelPart != null)
+        {
+            StartCoroutine(FinalizeLevel());
+        }
+    }
+
+    private IEnumerator FinalizeLevel()
+    {
+        // 1. NavMesh'i çalışma anında pişir (Baking)
+        if (navMeshSurface != null)
+        {
+            navMeshSurface.BuildNavMesh();
+        }
+
+        yield return new WaitForSeconds(0.1f); // NavMesh'in oturması için milisaniyelik bekleme
+
+        // 2. Robotları uyandır ve yerlerine mıhla
+        foreach (Enemy enemy in spawnedEnemies)
+        {
+            if (enemy != null)
+            {
+                // Damage sistemi transform.root kontrolü yapıyorsa unparent etmek iyidir
+                enemy.transform.parent = null;
+
+                enemy.gameObject.SetActive(true); // Robotu aç
+
+                NavMeshAgent agent = enemy.GetComponent<NavMeshAgent>();
+                if (agent != null)
+                {
+                    agent.enabled = true;
+                    // KRİTİK: Robotu olduğu yere ışınlanmaya zorla, başlangıca kaçmasın!
+                    agent.Warp(enemy.transform.position);
+                }
+            }
+        }
     }
 
     [ContextMenu("Create next level part")]
@@ -110,7 +166,7 @@ public class LevelGenerator : MonoBehaviour
         else
         {
             newPart = Instantiate(chosenPrefab);
-
+            RegisterEnemiesInPart(newPart);
             newPart = DetectCollision(newPart);
 
             if (newPart == null)
@@ -152,6 +208,7 @@ public class LevelGenerator : MonoBehaviour
             }
 
             newPart = Instantiate(corridorPrefab);
+
             LevelPart newLevelPart = newPart.GetComponent<LevelPart>();
             newLevelPart.SnapAndAlignPartTo(nextSnapPoint);
 
