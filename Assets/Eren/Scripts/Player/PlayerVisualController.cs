@@ -113,21 +113,46 @@ public class PlayerVisualController : MonoBehaviour
 
     public void SwitchOnBackupWeaponModel()
     {
-        WeaponType weaponType = player.weapon.BackupWeapon().weaponType;
+        SwitchOffBackupWeaponModels();
 
-        foreach (BackupWeaponModel backupWeaponModel in backupWeaponModels)
+        BackupWeaponModel backHangWeapon = null;
+        BackupWeaponModel secondBackHangWeapon = null;
+        BackupWeaponModel lowHangWeapon = null;
+        BackupWeaponModel sideHangWeapon = null;
+        
+        //Kayýtlý tüm backup modelleri gezer
+        foreach (BackupWeaponModel backupModel in backupWeaponModels)
         {
-            if (backupWeaponModel.weaponType == weaponType)
+
+            if (backupModel.weaponType == player.weapon.CurrentWeapon().weaponType)
+                continue;
+
+            //Gezerken de weaponcontroller'a yani WeaponSlots'a bu tipte silah sende var mý der. Trident,Pistolgun,Shotgun..
+            if (player.weapon.HasWeaponTypeInventory(backupModel.weaponType))
             {
-                backupWeaponModel.gameObject.SetActive(true);
+               //Eðer WeaponSlots evet var derse bunlar taranýr. Mesela Trident var ve BackHang olduðu için direkt ilkine girerek
+               //yerini alýr. 
+               if(backupModel.HangTypeIs(HangType.BackHang))
+                    backHangWeapon = backupModel;
+               if(backupModel.HangTypeIs(HangType.SecondBackHang))
+                    secondBackHangWeapon = backupModel;
+               if (backupModel.HangTypeIs(HangType.LowBackHang))
+                    lowHangWeapon = backupModel;
+               if(backupModel.HangTypeIs(HangType.SideHang))
+                    sideHangWeapon = backupModel;
             }
         }
+
+        lowHangWeapon?.Activate(true);
+        sideHangWeapon?.Activate(true);
+        backHangWeapon?.Activate(true);
+        secondBackHangWeapon?.Activate(true);
     }
     private void SwitchOffBackupWeaponModels()
     {
         foreach (BackupWeaponModel backupWeaponModel in backupWeaponModels)
         {
-            backupWeaponModel.gameObject.SetActive(false);
+            backupWeaponModel.Activate(false);
         }
     }
 

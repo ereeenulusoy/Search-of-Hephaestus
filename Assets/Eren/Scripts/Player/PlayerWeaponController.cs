@@ -69,6 +69,15 @@ public class PlayerWeaponController : MonoBehaviour
     }
 
     public bool HasOnlyOneWeapon() => weaponSlots.Count <= 1;
+    public bool HasWeaponTypeInventory(WeaponType weaponType)
+    {
+        foreach (Weapon weapon in weaponSlots)
+        {
+            if(weapon.weaponType == weaponType)
+                return true;
+        }
+        return false;
+    }
     private void EquipWeapon(int i)
     {
         if (i >= weaponSlots.Count)
@@ -204,6 +213,8 @@ public class PlayerWeaponController : MonoBehaviour
         controls.Character.EquipSlot1.performed += context => EquipWeapon(0);
         controls.Character.EquipSlot2.performed += context => EquipWeapon(1);
         controls.Character.EquipSlot3.performed += context => EquipWeapon(2);
+        controls.Character.EquipSlot4.performed += context => EquipWeapon(3);
+        controls.Character.EquipSlot5.performed += context => EquipWeapon(4);
 
         controls.Character.Reload.performed += context =>
         {

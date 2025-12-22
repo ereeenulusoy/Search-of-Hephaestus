@@ -156,6 +156,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Equip Slot - 4"",
+                    ""type"": ""Button"",
+                    ""id"": ""3e8bec33-9c13-4f6e-b04a-0d137b27056a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Equip Slot - 5"",
+                    ""type"": ""Button"",
+                    ""id"": ""18104485-a5c4-4ffd-b5cd-e72ad9605c08"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Reload"",
                     ""type"": ""Button"",
                     ""id"": ""0954f808-e376-49ea-90aa-bce7c7e153e9"",
@@ -317,6 +335,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Equip Slot - 3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""597c50f0-11f8-4bad-9f69-8925751658e9"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Equip Slot - 4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2c63add7-de19-45b1-b14e-2991b6040217"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Equip Slot - 5"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -332,6 +372,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Character_EquipSlot1 = m_Character.FindAction("Equip Slot - 1", throwIfNotFound: true);
         m_Character_EquipSlot2 = m_Character.FindAction("Equip Slot - 2", throwIfNotFound: true);
         m_Character_EquipSlot3 = m_Character.FindAction("Equip Slot - 3", throwIfNotFound: true);
+        m_Character_EquipSlot4 = m_Character.FindAction("Equip Slot - 4", throwIfNotFound: true);
+        m_Character_EquipSlot5 = m_Character.FindAction("Equip Slot - 5", throwIfNotFound: true);
         m_Character_Reload = m_Character.FindAction("Reload", throwIfNotFound: true);
         m_Character_Newaction = m_Character.FindAction("New action", throwIfNotFound: true);
     }
@@ -421,6 +463,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Character_EquipSlot1;
     private readonly InputAction m_Character_EquipSlot2;
     private readonly InputAction m_Character_EquipSlot3;
+    private readonly InputAction m_Character_EquipSlot4;
+    private readonly InputAction m_Character_EquipSlot5;
     private readonly InputAction m_Character_Reload;
     private readonly InputAction m_Character_Newaction;
     /// <summary>
@@ -462,6 +506,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Character/EquipSlot3".
         /// </summary>
         public InputAction @EquipSlot3 => m_Wrapper.m_Character_EquipSlot3;
+        /// <summary>
+        /// Provides access to the underlying input action "Character/EquipSlot4".
+        /// </summary>
+        public InputAction @EquipSlot4 => m_Wrapper.m_Character_EquipSlot4;
+        /// <summary>
+        /// Provides access to the underlying input action "Character/EquipSlot5".
+        /// </summary>
+        public InputAction @EquipSlot5 => m_Wrapper.m_Character_EquipSlot5;
         /// <summary>
         /// Provides access to the underlying input action "Character/Reload".
         /// </summary>
@@ -517,6 +569,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @EquipSlot3.started += instance.OnEquipSlot3;
             @EquipSlot3.performed += instance.OnEquipSlot3;
             @EquipSlot3.canceled += instance.OnEquipSlot3;
+            @EquipSlot4.started += instance.OnEquipSlot4;
+            @EquipSlot4.performed += instance.OnEquipSlot4;
+            @EquipSlot4.canceled += instance.OnEquipSlot4;
+            @EquipSlot5.started += instance.OnEquipSlot5;
+            @EquipSlot5.performed += instance.OnEquipSlot5;
+            @EquipSlot5.canceled += instance.OnEquipSlot5;
             @Reload.started += instance.OnReload;
             @Reload.performed += instance.OnReload;
             @Reload.canceled += instance.OnReload;
@@ -555,6 +613,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @EquipSlot3.started -= instance.OnEquipSlot3;
             @EquipSlot3.performed -= instance.OnEquipSlot3;
             @EquipSlot3.canceled -= instance.OnEquipSlot3;
+            @EquipSlot4.started -= instance.OnEquipSlot4;
+            @EquipSlot4.performed -= instance.OnEquipSlot4;
+            @EquipSlot4.canceled -= instance.OnEquipSlot4;
+            @EquipSlot5.started -= instance.OnEquipSlot5;
+            @EquipSlot5.performed -= instance.OnEquipSlot5;
+            @EquipSlot5.canceled -= instance.OnEquipSlot5;
             @Reload.started -= instance.OnReload;
             @Reload.performed -= instance.OnReload;
             @Reload.canceled -= instance.OnReload;
@@ -650,6 +714,20 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnEquipSlot3(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Equip Slot - 4" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnEquipSlot4(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Equip Slot - 5" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnEquipSlot5(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Reload" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
