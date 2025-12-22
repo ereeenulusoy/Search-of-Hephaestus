@@ -15,7 +15,7 @@ public class PlayerAnimationEvent : MonoBehaviour
         player.visual.IncreaseRigWeight();
         player.visual.IncreaseLeftHandIKWeight();
         player.weapon.CurrentWeapon().RefillBullets();
-
+        player.visual.CurrentWeaponModel().reloadSFX.Stop();
        
     }
     public void ReloadBringAim() => player.weapon.SetWeaponReady(true);

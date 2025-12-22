@@ -84,7 +84,11 @@ public class PlayerWeaponController : MonoBehaviour
         if (WeaponReady())
         {
         SetWeaponReady(false);
+
         player.visual.PlayReloadAnimation();
+
+        player.visual.CurrentWeaponModel().reloadSFX.Play();
+
         }
     }
     public void SetWeaponReady(bool ready) => weaponReady = ready;
@@ -143,6 +147,8 @@ public class PlayerWeaponController : MonoBehaviour
     {
         currentWeapon.bulletsInMagazine--;
 
+
+        player.visual.CurrentWeaponModel().fireSFX.Play();
 
         GameObject newBullet = ObjectPool.instance.GetBullet();
 
