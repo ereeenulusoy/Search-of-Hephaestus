@@ -61,7 +61,7 @@ public class Weapon
     [Range(1, 20)]
     public float gunDistance = 6f;
     
-    [Range(15, 25)]
+    [Range(15, 30)]
     public float cameraDistance;
 
     #region Burst Methods
