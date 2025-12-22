@@ -52,31 +52,19 @@ public class PlayerWeaponController : MonoBehaviour
         if (isShooting)
             Shoot();
         
-        if(Input.GetKeyDown(KeyCode.T))
-            currentWeapon.ToggleBurst();
     }
     
     public Weapon CurrentWeapon() => currentWeapon;
 
-    public Weapon BackupWeapon()
-    {
-        foreach (Weapon weapon in weaponSlots)
-        {
-            if(weapon != currentWeapon)
-                return weapon;
-        }
-        return null;
-    }
-
     public bool HasOnlyOneWeapon() => weaponSlots.Count <= 1;
-    public bool HasWeaponTypeInventory(WeaponType weaponType)
+    public Weapon WeaponInSlots(WeaponType weaponType)
     {
         foreach (Weapon weapon in weaponSlots)
         {
             if(weapon.weaponType == weaponType)
-                return true;
+                return weapon;
         }
-        return false;
+        return null;
     }
     private void EquipWeapon(int i)
     {
@@ -215,6 +203,8 @@ public class PlayerWeaponController : MonoBehaviour
         controls.Character.EquipSlot3.performed += context => EquipWeapon(2);
         controls.Character.EquipSlot4.performed += context => EquipWeapon(3);
         controls.Character.EquipSlot5.performed += context => EquipWeapon(4);
+
+        controls.Character.ToggleWeaponMode.performed += context => currentWeapon.ToggleBurst();
 
         controls.Character.Reload.performed += context =>
         {

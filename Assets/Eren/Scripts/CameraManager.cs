@@ -9,6 +9,8 @@ public class CameraManager : MonoBehaviour
 
     private CinemachineVirtualCamera virtualCamera;
     private CinemachineFramingTransposer transposer;
+
+
     private void Awake()
     {
         if (instance == null)
@@ -23,8 +25,6 @@ public class CameraManager : MonoBehaviour
         transposer = virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
 
     }
-
-
 
     public void ChangeCameraDistance(float distance) => transposer.m_CameraDistance = distance;
 

@@ -128,7 +128,7 @@ public class PlayerVisualController : MonoBehaviour
                 continue;
 
             //Gezerken de weaponcontroller'a yani WeaponSlots'a bu tipte silah sende var mý der. Trident,Pistolgun,Shotgun..
-            if (player.weapon.HasWeaponTypeInventory(backupModel.weaponType))
+            if (player.weapon.WeaponInSlots(backupModel.weaponType) != null)
             {
                //Eðer WeaponSlots evet var derse bunlar taranýr. Mesela Trident var ve BackHang olduðu için direkt ilkine girerek
                //yerini alýr. 
