@@ -3551,7 +3551,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &1119721604
 Light:
   m_ObjectHideFlags: 0
@@ -3564,7 +3564,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.9622642, g: 0.8108135, b: 0.31318974, a: 1}
-  m_Intensity: 1
+  m_Intensity: 5
   m_Range: 100
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -3622,7 +3622,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1119721603}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 4.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -13687,7 +13687,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fde13b95597f5f4682dc99de316c9bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 6086380071879002497, guid: f6be0c690c505774ebe103f412764078, type: 3}
   poolSize: 30
 --- !u!23 &5216144663316757542
 MeshRenderer:
@@ -17661,7 +17660,7 @@ MonoBehaviour:
   aim: {fileID: 4820379992095899396}
   aimLayerMask:
     serializedVersion: 2
-    m_Bits: 2240
+    m_Bits: 2112
   isAimingPricesly: 0
   isLockingToTarget: 1
   cameraFollowTarget: {fileID: 1572988296894227497}
@@ -19882,10 +19881,10 @@ SceneRoots:
   - {fileID: 4303070782058762045}
   - {fileID: 897513463}
   - {fileID: 1130983451}
-  - {fileID: 1119721605}
   - {fileID: 1380995933}
   - {fileID: 8986107524353468270}
   - {fileID: 1603512078}
   - {fileID: 889810854}
   - {fileID: 27418536}
   - {fileID: 6560017222648571937}
+  - {fileID: 1119721605}

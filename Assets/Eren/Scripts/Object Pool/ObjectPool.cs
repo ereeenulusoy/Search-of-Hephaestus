@@ -7,10 +7,11 @@ public class ObjectPool : MonoBehaviour
 {
     public static ObjectPool instance;
 
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] int poolSize = 10;
+    [SerializeField] int poolSize = 30;
 
-    private Queue<GameObject> bulletPool;//Mermi sýrasý yaratýr.
+
+    private Dictionary<GameObject, Queue<GameObject>> poolDictionary =
+        new Dictionary<GameObject, Queue<GameObject>>();
     
     
     private void Awake()
@@ -21,43 +22,70 @@ public class ObjectPool : MonoBehaviour
             Destroy(gameObject);
     }
 
-    private void Start()
+    public GameObject GetObject(GameObject prefab)
     {
-        bulletPool = new Queue<GameObject>();
-        CreateInitialPool();
+        if (poolDictionary.ContainsKey(prefab) == false)//bu value'nun hiçbir keyi yoksa[sýrada eleman yoksa]
+        {
+            InitializeNewPool(prefab); 
+        }
+            
+        if (poolDictionary[prefab].Count == 0) //Tüm objeler kullanýlýyorsa yenisini oluþtur.
+        {
+            CreateNewObject(prefab);
+        }
+
+        GameObject objectToGet = poolDictionary[prefab].Dequeue();
+        objectToGet.SetActive(true);
+        objectToGet.transform.parent = null;
+        return objectToGet;
     }
 
-    public GameObject GetBullet()
-    {
-        if(bulletPool.Count == 0)
-            CreateNewBullet();
 
-        GameObject bulletToGet = bulletPool.Dequeue();
-        bulletToGet.SetActive(true);
-        bulletToGet.transform.parent = null;
-        return bulletToGet;
+    public void ReturnObject(GameObject objectToReturn, float delay = .001f)
+                     => StartCoroutine(DelayReturn(delay, objectToReturn));
+
+    private IEnumerator DelayReturn(float delay, GameObject objectToReturn)
+    {
+        yield return new WaitForSeconds(delay);
+
+        ReturnToPool(objectToReturn);
+    }
+    private void ReturnToPool(GameObject objectToReturn)
+    {
+        GameObject originalPrefab = objectToReturn.GetComponent<PooledObject>().originalPrefab;
+        //CreateNewObject kýsmý burada baþlýyor.Bu obje artýk orijinal bir obje.
+        objectToReturn.SetActive(false);
+       
+        objectToReturn.transform.parent = transform;
+
+        poolDictionary[originalPrefab].Enqueue(objectToReturn);
+
     }
 
-    public void ReturnBullet(GameObject bullet)
+    private void InitializeNewPool(GameObject prefab)
     {
-        bullet.SetActive(false);
-        bulletPool.Enqueue(bullet);
-        bullet.transform.parent = transform;
-    }
 
-    private void CreateInitialPool()
-    {
+        poolDictionary[prefab] = new Queue<GameObject>();
+
         for (int i = 0; i < poolSize; ++i)
         {
-            CreateNewBullet();
+            CreateNewObject(prefab);
 
         }
     }
 
-    private void CreateNewBullet()
+    private void CreateNewObject(GameObject prefab)
     {
-        GameObject newBullet = Instantiate(bulletPrefab, transform);
-        newBullet.SetActive(false);
-        bulletPool.Enqueue(newBullet);//Sýraya ekler.
+        GameObject newObject = Instantiate(prefab, transform);// CLONE YARATILDI.
+        newObject.AddComponent<PooledObject>().originalPrefab = prefab;
+        // YARATILAN OBJEDEKÝ SCRÝPTTE ORIGINALPREFAB'I TUTAN YER VAR. BURANIN ÝÇÝNE ORÝJÝNAL PREFAB'Ý ATICAZ.
+
+        // BUNU YAPMA NEDENÝMÝZ OLUÞTURULAN PREFAB ORÝJÝNAL OLARAK GEÇMÝYOR. BU YÜZDEN DE KEY OLARAK KULLANILMIYOR.
+
+        // BU DA OBJECT POOL OLARAK TEKRAR KULLANILAMAMASINA NEDEN OLUR. ReturnToPool'da kullaným amacý anlaþýlacak!!
+
+        newObject.SetActive(false);
+
+        poolDictionary[prefab].Enqueue(newObject);//object pool yapýlan hangi objeyse onun sýrasýna ekler.
     }
 }

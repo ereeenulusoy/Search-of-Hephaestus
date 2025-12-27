@@ -48,7 +48,7 @@ public class Bullet : MonoBehaviour
     private void ReturnBulletsToPool()
     {
         if (trailRenderer.time < 0)
-            ObjectPool.instance.ReturnBullet(gameObject);
+            ReturnBulletToPool();
     }
 
     private void DisableBullet()
@@ -74,23 +74,28 @@ public class Bullet : MonoBehaviour
         if (enemy != null)
         {
             Vector3 force = rb.velocity.normalized * impactForce;
-            Rigidbody hitRigidbody = collision.collider.attachedRigidbody; 
+            Rigidbody hitRigidbody = collision.collider.attachedRigidbody;
 
             enemy.GetHit();
             enemy.HitImpact(force, collision.contacts[0].point, hitRigidbody);
         }
-        CreateBulletImpactFX(collision);
-        ObjectPool.instance.ReturnBullet(gameObject);
+        CreateImpactFX(collision);
+        ReturnBulletToPool();
     }
 
-    private void CreateBulletImpactFX(Collision collision)
+    private void ReturnBulletToPool() => ObjectPool.instance.ReturnObject(gameObject);
+
+    private void CreateImpactFX(Collision collision)
     {
         if (collision.contacts.Length > 0)// çarpýlan yüzey sayýsý 0'dan büyükse
         {
             ContactPoint contact = collision.contacts[0];//List yapýyor.
-            GameObject newbulletImpactFx = Instantiate(bulletImpactVfx, contact.point, Quaternion.LookRotation(contact.normal));
+            GameObject newImpactFx = ObjectPool.instance.GetObject(bulletImpactVfx);
+               
+            newImpactFx.transform.position = contact.point;
+            newImpactFx.transform.rotation = Quaternion.LookRotation(contact.normal);
 
-            Destroy(newbulletImpactFx,1f);
+            ObjectPool.instance.ReturnObject(newImpactFx , 1);
         }
     }
 }

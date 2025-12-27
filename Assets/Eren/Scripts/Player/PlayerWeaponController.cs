@@ -150,7 +150,7 @@ public class PlayerWeaponController : MonoBehaviour
 
         player.visual.CurrentWeaponModel().fireSFX.Play();
 
-        GameObject newBullet = ObjectPool.instance.GetBullet();
+        GameObject newBullet = ObjectPool.instance.GetObject(bulletPrefab);
 
         newBullet.transform.position = gunPoint.position;
         newBullet.transform.rotation = Quaternion.LookRotation(gunPoint.forward);
