@@ -17,6 +17,7 @@ public struct AttackData
 }
 
 public enum AttackType_Melee { Close, Charge}
+public enum EnemyMelee_Type {Regular , Shield, Dodge}
 
 public class Enemy_Melee : Enemy
 {
@@ -25,7 +26,14 @@ public class Enemy_Melee : Enemy
     public RecoveryState_Melee recoveryState { get; private set; }
     public ChaseState_Melee chaseState { get; private set; }
     public AttackState_Melee attackState { get; private set; }
-    public DeadState_Melee deadState { get; private set; } 
+    public DeadState_Melee deadState { get; private set; }
+
+    [Header("Enemy Settings")]
+    public EnemyMelee_Type meleeType;
+    [SerializeField] private Transform shieldTransform;
+    public float dodgeCooldown;
+    private float lastTimeDodge;
+
 
     [Header("Attack Data")]
     public AttackData attackData;
@@ -50,6 +58,7 @@ public class Enemy_Melee : Enemy
     {
         base.Start();
         stateMachine.Initialize(idleState);
+        InitializeSpeciality(); 
     }
 
     protected override void Update()
@@ -58,11 +67,22 @@ public class Enemy_Melee : Enemy
 
         stateMachine.currentState.Update();
     }
+
+    private void InitializeSpeciality()
+    {
+        if (meleeType == EnemyMelee_Type.Shield)
+        {
+        anim.SetFloat("ChaseIndex", 1);
+        shieldTransform.gameObject.SetActive(true);
+        }
+    }
+
     public override void GetHit()
     {
         base.GetHit();
+
         if(healthPoints <=0)
-       stateMachine.ChangeState(deadState);
+         stateMachine.ChangeState(deadState);
     }
     public void PullWeapon()
     {
@@ -70,7 +90,26 @@ public class Enemy_Melee : Enemy
         pulledWeapon.gameObject.SetActive(true);
     }
 
+
     public bool PlayerInAttackRange() => Vector3.Distance(transform.position, player.position) < attackData.attackRange;
+
+    public void ActivateDodgeRoll()
+    {
+        if (meleeType != EnemyMelee_Type.Dodge)
+            return;
+
+        if (stateMachine.currentState != chaseState)
+            return;
+
+        if (Vector3.Distance(transform.position, player.position) < 2.25)
+            return;
+
+        if (Time.time > lastTimeDodge + dodgeCooldown)
+        {
+            lastTimeDodge = Time.time;
+            anim.SetTrigger("Dodge");
+        }
+    }
     protected override void OnDrawGizmos()
     {
        base.OnDrawGizmos();

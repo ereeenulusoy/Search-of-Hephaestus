@@ -19,50 +19,82 @@ public class Weapon
 {
     public WeaponType weaponType;
 
-    [Space]
-    [Header("Shooting Specifics")]
+    #region Regular Mode Variables
     public ShootType shootType;
+
+    [Space]
     public float defaultFireRate;
-    public int bulletsPerShot;
-    public float fireRate = 1f; //bullets per second    
+    public int bulletsPerShot { get; private set; }
+    public float fireRate; //bullets per second    
     private float lastShootTime;
+    #endregion
 
-    [Header("Bullet Spread")]
-    public float baseSpread;
-    public float currentSpread = 2;
-    public float maximumSpread = 3;
+    #region Weapon Spread Variables
+    private float baseSpread;
+    public float currentSpread;
+    private float maximumSpread;
 
-    public float defaultSpreadIncreaseRate = .2f;
-    public float spreadIncreaseRate = .3f;
-    public float burstSpreadIncreaseRate = .2f;
-    public float spreadCooldown;
+    private float defaultSpreadIncreaseRate; // ÝÞ TAMAMEN BÝTÝNCE DATAYA ÇEKTÝKLERÝNÝ PRIVATE YAP!!!
+    public float spreadIncreaseRate;
+    private float burstSpreadIncreaseRate;
+    private float spreadCooldown = .6f;
 
     private float lastSpreadUpdateTime;
+    #endregion
 
-    [Header("Burst fire")]
-    public bool burstModeAvailable;
+    #region Burst Mode Variables
+    public bool burstAvailable;
     public bool burstActive;
 
     public int burstBulletsPerShot;
     public float burstFireRate;
-    public float burstFireDelay = 0.1f;
-    
-    [Header("Ammo Details")]
+    public float burstFireDelay { get; private set; }
+    #endregion
+  
+    [Header("Magazine details")]
     public int bulletsInMagazine;
     public int magazineCapacity;
 
+    #region Weapon Spesification variables
+   
+    public float reloadSpeed { get; private set; }
+    public float equipmentSpeed { get; private set; }
+    public float gunDistance { get; private set; }
+    public float cameraDistance { get; private set; }
+    #endregion
+    // adý boþuna constructor deðil. herhangi bir dönüþ tipi yok sadece varlýk oluþturur.
+    public Weapon(Weapon_Data weaponData)
+    {   
+        bulletsInMagazine = weaponData.bulletsInMagazine;
+        magazineCapacity = weaponData.magazineCapacity;
 
-    [Range(0.5f,2)]
-    public float reloadSpeed = 1f;
+        fireRate = weaponData.fireRate;
+        weaponType = weaponData.weaponType;
+        shootType = weaponData.shootType;
+        bulletsPerShot = weaponData.bulletsPerShot;
 
-    [Range(0.5f, 2)]
-    public float equipmentSpeed = 1f;
+        burstActive = weaponData.burstActive;
+        burstAvailable = weaponData.burstAvailable;
+        burstBulletsPerShot = weaponData.burstBulletsPerShot;
+        burstFireRate = weaponData.burstFireRate;
+        burstFireDelay = weaponData.burstFireDelay;
 
-    [Range(1, 20)]
-    public float gunDistance = 6f;
-    
-    [Range(15, 30)]
-    public float cameraDistance;
+        baseSpread = weaponData.baseSpread;
+        maximumSpread = weaponData.maxSpread;
+        currentSpread = baseSpread;
+
+        defaultSpreadIncreaseRate = weaponData.defaultSpreadIncreaseRate;
+        burstSpreadIncreaseRate = weaponData.burstSpreadIncreaseRate;
+        spreadIncreaseRate = defaultSpreadIncreaseRate;
+
+        reloadSpeed = weaponData.reloadSpeed;
+        equipmentSpeed = weaponData.equipmentSpeed;
+        gunDistance = weaponData.gunDistance;
+        cameraDistance = weaponData.cameraDistance;
+
+
+        defaultFireRate = fireRate;
+    }
 
     #region Burst Methods
 
@@ -79,7 +111,7 @@ public class Weapon
 
     public void ToggleBurst()
     {
-        if (!burstModeAvailable)
+        if (!burstAvailable)
             return;
 
         burstActive = !burstActive;

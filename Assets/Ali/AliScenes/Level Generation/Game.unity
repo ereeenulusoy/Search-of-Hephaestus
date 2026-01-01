@@ -3561,10 +3561,10 @@ Light:
   m_GameObject: {fileID: 1119721603}
   m_Enabled: 1
   serializedVersion: 10
-  m_Type: 2
+  m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.9622642, g: 0.8108135, b: 0.31318974, a: 1}
-  m_Intensity: 5
+  m_Color: {r: 1, g: 0.96298295, b: 0.80566037, a: 1}
+  m_Intensity: 0.35
   m_Range: 100
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -3603,7 +3603,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 2
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -3622,13 +3622,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1119721603}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.18, z: 0}
+  m_LocalRotation: {x: 0.4330127, y: -0.4330127, z: 0.25, w: 0.75}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 60, y: -60, z: 0}
 --- !u!114 &1119721606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7617,30 +7617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fed2be486e5be42b2e16184421b019, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapon:
-    weaponType: 1
-    shootType: 0
-    defaultFireRate: 0
-    bulletsPerShot: 0
-    fireRate: 1
-    baseSpread: 0
-    currentSpread: 2
-    maximumSpread: 3
-    defaultSpreadIncreaseRate: 0.2
-    spreadIncreaseRate: 0.15
-    burstSpreadIncreaseRate: 0.2
-    spreadCooldown: 0
-    burstModeAvailable: 0
-    burstActive: 0
-    burstBulletsPerShot: 0
-    burstFireRate: 0
-    burstFireDelay: 0.1
-    bulletsInMagazine: 6
-    magazineCapacity: 6
-    reloadSpeed: 0.9
-    equipmentSpeed: 0.85
-    gunDistance: 6
-    cameraDistance: 0
+  weaponData: {fileID: 0}
 --- !u!114 &774742726108425664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8325,7 +8302,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -8358,7 +8335,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -9268,101 +9245,58 @@ MonoBehaviour:
   bulletSpeed: 30
   gunPoint: {fileID: 7622932443380996900}
   weaponHolder: {fileID: 6935138316798714946}
+  defaultWeaponData: {fileID: 0}
+  currentWeapon:
+    weaponType: 0
+    shootType: 0
+    defaultFireRate: 0
+    fireRate: 1
+    currentSpread: 0.5
+    spreadIncreaseRate: 0.2
+    burstAvailable: 0
+    burstActive: 0
+    burstBulletsPerShot: 0
+    burstFireRate: 0
+    bulletsInMagazine: 0
+    magazineCapacity: 0
   maxSlots: 3
   weaponSlots:
   - weaponType: 0
     shootType: 1
     defaultFireRate: 5.75
-    bulletsPerShot: 1
     fireRate: 5.75
-    baseSpread: 1.8
     currentSpread: 1.8
-    maximumSpread: 10
-    defaultSpreadIncreaseRate: 0.6
     spreadIncreaseRate: 0.6
-    burstSpreadIncreaseRate: 0.2
-    spreadCooldown: 0.6
-    burstModeAvailable: 1
+    burstAvailable: 0
     burstActive: 0
     burstBulletsPerShot: 4
     burstFireRate: 0.9
-    burstFireDelay: 0.13
     bulletsInMagazine: 20
     magazineCapacity: 20
-    reloadSpeed: 1.1
-    equipmentSpeed: 1.2
-    gunDistance: 11.8
-    cameraDistance: 24.5
   - weaponType: 1
     shootType: 0
     defaultFireRate: 0
-    bulletsPerShot: 5
     fireRate: 1
-    baseSpread: 13.5
     currentSpread: 13.5
-    maximumSpread: 13.5
-    defaultSpreadIncreaseRate: 0.2
     spreadIncreaseRate: 0.15
-    burstSpreadIncreaseRate: 0.2
-    spreadCooldown: 0
-    burstModeAvailable: 1
+    burstAvailable: 0
     burstActive: 0
     burstBulletsPerShot: 0
     burstFireRate: 0
-    burstFireDelay: 0
     bulletsInMagazine: 20
     magazineCapacity: 20
-    reloadSpeed: 0.9
-    equipmentSpeed: 0.75
-    gunDistance: 6.5
-    cameraDistance: 21.5
   - weaponType: 2
     shootType: 1
     defaultFireRate: 0
-    bulletsPerShot: 1
     fireRate: 4
-    baseSpread: 0.5
     currentSpread: 0.5
-    maximumSpread: 4
-    defaultSpreadIncreaseRate: 0.2
     spreadIncreaseRate: 0.2
-    burstSpreadIncreaseRate: 0.2
-    spreadCooldown: 1
-    burstModeAvailable: 0
+    burstAvailable: 0
     burstActive: 0
     burstBulletsPerShot: 0
     burstFireRate: 0
-    burstFireDelay: 0
     bulletsInMagazine: 30
     magazineCapacity: 30
-    reloadSpeed: 0.9
-    equipmentSpeed: 0.8
-    gunDistance: 6
-    cameraDistance: 26.5
-  currentWeapon:
-    weaponType: 0
-    shootType: 0
-    defaultFireRate: 0
-    bulletsPerShot: 0
-    fireRate: 1
-    baseSpread: 0.5
-    currentSpread: 0.5
-    maximumSpread: 4
-    defaultSpreadIncreaseRate: 0.2
-    spreadIncreaseRate: 0.2
-    burstSpreadIncreaseRate: 0.2
-    spreadCooldown: 1
-    burstModeAvailable: 0
-    burstActive: 0
-    burstBulletsPerShot: 0
-    burstFireRate: 0
-    burstFireDelay: 0.1
-    bulletsInMagazine: 0
-    magazineCapacity: 0
-    reloadSpeed: 1
-    equipmentSpeed: 1
-    gunDistance: 6
-    cameraDistance: 20.5
 --- !u!23 &2007482707774019938
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13748,7 +13682,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -13781,7 +13715,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -14353,7 +14287,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -14386,7 +14320,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -14537,7 +14471,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -14570,7 +14504,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -16824,7 +16758,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -16857,7 +16791,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -17372,7 +17306,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -17405,7 +17339,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -18263,7 +18197,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -18296,7 +18230,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -18504,7 +18438,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -18537,7 +18471,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1

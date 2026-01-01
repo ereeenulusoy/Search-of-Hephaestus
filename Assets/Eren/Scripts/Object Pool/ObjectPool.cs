@@ -24,7 +24,7 @@ public class ObjectPool : MonoBehaviour
 
     public GameObject GetObject(GameObject prefab)
     {
-        if (poolDictionary.ContainsKey(prefab) == false)//bu value'nun hiçbir keyi yoksa[sýrada eleman yoksa]
+        if (poolDictionary.ContainsKey(prefab) == false)//bu tipte hiçbir key yoksa[Hiç kayýt yoksa] queue(value) oluþtur.
         {
             InitializeNewPool(prefab); 
         }
@@ -53,7 +53,7 @@ public class ObjectPool : MonoBehaviour
     private void ReturnToPool(GameObject objectToReturn)
     {
         GameObject originalPrefab = objectToReturn.GetComponent<PooledObject>().originalPrefab;
-        //CreateNewObject kýsmý burada baþlýyor.Bu obje artýk orijinal bir obje.
+        //CreateNewObject kýsmý burada çalýþmaya baþlýyor.Bu yeni obje artýk orijinal bir obje.
         objectToReturn.SetActive(false);
        
         objectToReturn.transform.parent = transform;

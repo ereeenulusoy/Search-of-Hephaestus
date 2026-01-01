@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.XR;
 
 public class Bullet : MonoBehaviour
 {
@@ -29,7 +28,9 @@ public class Bullet : MonoBehaviour
         cd.enabled = true;
         meshRenderer.enabled = true;
 
+        //trailRenderer.Clear(); LAZIM OLURSA BÝ BAK.
         trailRenderer.time = .2f;
+
         this.impactForce = impactForce;
 
         startPosition = transform.position;
@@ -47,7 +48,7 @@ public class Bullet : MonoBehaviour
 
     private void ReturnBulletsToPool()
     {
-        if (trailRenderer.time < 0)
+        if (trailRenderer.time <= 0)
             ReturnBulletToPool();
     }
 
@@ -69,8 +70,17 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
+        CreateImpactFX(collision);
+        ReturnBulletToPool();
 
+        Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
+        EnemyShield shield = collision.gameObject.GetComponent<EnemyShield>();
+
+        if (shield != null)
+        {
+            shield.ReduceDurability();
+            return;
+        }
         if (enemy != null)
         {
             Vector3 force = rb.velocity.normalized * impactForce;
@@ -79,8 +89,7 @@ public class Bullet : MonoBehaviour
             enemy.GetHit();
             enemy.HitImpact(force, collision.contacts[0].point, hitRigidbody);
         }
-        CreateImpactFX(collision);
-        ReturnBulletToPool();
+        
     }
 
     private void ReturnBulletToPool() => ObjectPool.instance.ReturnObject(gameObject);

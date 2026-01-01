@@ -5,13 +5,14 @@ using UnityEngine;
 public class PlayerWeaponController : MonoBehaviour
 {
     private Player player;
+    private const float REFFERENCED_BULLET_SPEED = 20f;
     private Transform aim;
 
     [SerializeField] private float weaponRotationSpeed = 12f;
 
     [Header("Bullet")]
     [SerializeField] private float bulletImpactForce = 100f;
-    private const float REFFERENCED_BULLET_SPEED = 20f;
+
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private float bulletSpeed;
     [SerializeField] private Transform gunPoint;
@@ -19,11 +20,12 @@ public class PlayerWeaponController : MonoBehaviour
 
 
     [Header("Inventory")]
+    [SerializeField] private Weapon_Data defaultWeaponData;
+    [SerializeField] private Weapon currentWeapon;
     [SerializeField] private int maxSlots = 2;
     [SerializeField] private List<Weapon> weaponSlots;
     // weapon içindeki bilgileri alýp ayrý ayrý weapondaki özellikleri kontrol eder. 0, 1 ...
    
-    [SerializeField] private Weapon currentWeapon;
     
 
     private bool weaponReady;
@@ -39,7 +41,11 @@ public class PlayerWeaponController : MonoBehaviour
         Invoke("EquipStartingWeapon",.1f);
     }
 
-    private void EquipStartingWeapon() => EquipWeapon(0);
+    private void EquipStartingWeapon() 
+    {
+        weaponSlots[0] = new Weapon(defaultWeaponData);    
+        EquipWeapon(0);
+    }
   
     private void Update()
     {
@@ -94,11 +100,12 @@ public class PlayerWeaponController : MonoBehaviour
     public void SetWeaponReady(bool ready) => weaponReady = ready;
     public bool WeaponReady() => weaponReady;
 
-    public void PickUpWeapon(Weapon newWeapon)
+    public void PickUpWeapon(Weapon_Data newWeaponData)
     {
         if (weaponSlots.Count >= maxSlots)
            return;
-
+       
+        Weapon newWeapon = new Weapon(newWeaponData);
         weaponSlots.Add(newWeapon);
 
         player.visual.SwitchOnBackupWeaponModel();
@@ -140,6 +147,8 @@ public class PlayerWeaponController : MonoBehaviour
         }
         
         FireSingleBullet();
+        TriggerEnemyDodge();
+
 
     }
 
@@ -197,6 +206,23 @@ public class PlayerWeaponController : MonoBehaviour
     }
 
     public Transform GunPoint() => gunPoint;
+
+    private void TriggerEnemyDodge()
+    {
+        Vector3 rayOrigin = GunPoint().position;
+        Vector3 rayDirection = BulletDirection();
+
+        if (Physics.Raycast(rayOrigin, rayDirection, out RaycastHit hit, Mathf.Infinity))
+        {
+            Enemy_Melee enemy_Melee = hit.collider.gameObject.GetComponentInParent<Enemy_Melee>();
+            //Ragdollar kolda vesayre yani childda. O yüzden parenta bakýlmalý.
+
+            if (enemy_Melee != null)
+            {
+                enemy_Melee.ActivateDodgeRoll();
+            }
+        }
+    }
     private void HandleInputEvents()
     {
         PlayerControls controls = player.controls;
