@@ -2682,7 +2682,7 @@ GameObject:
   - component: {fileID: 6896008548110270098}
   - component: {fileID: 1061099050299687975}
   - component: {fileID: 7661821244028174492}
-  - component: {fileID: 6189666144544134342}
+  - component: {fileID: 8049821261671491837}
   m_Layer: 6
   m_Name: LavaFloorShort
   m_TagString: Untagged
@@ -2755,7 +2755,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6189666144544134342
+--- !u!65 &8049821261671491837
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2774,7 +2774,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 20, y: 0.043632355, z: 10}
+  m_Size: {x: 20, y: 0.043632355, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &854156067405317747
 GameObject:
@@ -7634,10 +7634,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.12742175, y: -0.37435368, z: -0.9184638, w: -0.006876191}
   m_LocalPosition: {x: 17.73, y: 1.9944553, z: 4.342}
-  m_LocalScale: {x: 2.2000003, y: 1.5999998, z: 1.2500001}
+  m_LocalScale: {x: 2.2000005, y: 1.5999998, z: 1.2500002}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2206720489727380681}
+  m_Father: {fileID: 7882043320292836551}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3189763248892823626
 MeshFilter:
@@ -10234,7 +10234,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2206720489727380681}
+  m_Father: {fileID: 7882043320292836551}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8195444225942563916
 MeshFilter:
@@ -12512,7 +12512,6 @@ Transform:
   - {fileID: 4754445696121662630}
   - {fileID: 1677284145791766840}
   - {fileID: 7880211703298735861}
-  - {fileID: 5267716758954623327}
   - {fileID: 1101101746637760728}
   - {fileID: 4477035707915926622}
   - {fileID: 301118815196965425}
@@ -12531,6 +12530,9 @@ Transform:
   - {fileID: 5266611761703340475}
   - {fileID: 3563191958862287986}
   - {fileID: 1286404164009948981}
+  - {fileID: 8274111661297141786}
+  - {fileID: 1887186005292946157}
+  - {fileID: 8641970479615352399}
   m_Father: {fileID: 2206720489727380681}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4274631372908440966
@@ -13907,59 +13909,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5109353, y: 0.14399007, z: 0.32879293}
   m_Center: {x: -0.000000014901165, y: 0.0000066161156, z: 0.08766747}
---- !u!1 &4778707156292377573
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5267716758954623327}
-  - component: {fileID: 4487741992178736940}
-  m_Layer: 7
-  m_Name: Coal 1 (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
---- !u!4 &5267716758954623327
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4778707156292377573}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.921, y: 0.046964273, z: 25.024975}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7882043320292836551}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &4487741992178736940
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4778707156292377573}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4782000175231570689
 GameObject:
   m_ObjectHideFlags: 0
@@ -14566,7 +14515,7 @@ GameObject:
   - component: {fileID: 4643970505937434911}
   - component: {fileID: 7223548584372657883}
   - component: {fileID: 611664653007405971}
-  - component: {fileID: 6153547480698124206}
+  - component: {fileID: 6990089381633057358}
   m_Layer: 6
   m_Name: LavaFloorShort (1)
   m_TagString: Untagged
@@ -14639,7 +14588,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6153547480698124206
+--- !u!65 &6990089381633057358
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14658,7 +14607,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 20, y: 0.043632355, z: 10}
+  m_Size: {x: 20, y: 0.043632355, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4964966967071590092
 GameObject:
@@ -21242,9 +21191,6 @@ Transform:
   - {fileID: 4244671776097824897}
   - {fileID: 7896664113638090649}
   - {fileID: 7882043320292836551}
-  - {fileID: 8274111661297141786}
-  - {fileID: 1887186005292946157}
-  - {fileID: 8641970479615352399}
   - {fileID: 6814091341570979089}
   - {fileID: 7031824814089143934}
   - {fileID: 7191401273420221564}
@@ -26336,7 +26282,7 @@ Transform:
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 2206720489727380681}
+  m_Father: {fileID: 7882043320292836551}
   m_LocalEulerAnglesHint: {x: 0, y: -99.156, z: -180}
 --- !u!33 &5275298131657718769
 MeshFilter:
