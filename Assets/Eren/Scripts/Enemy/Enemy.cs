@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -20,14 +19,16 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private Transform[] patrolPoints;
     private int currentPatrolIndex;
+    private Vector3[] patrolPointsPosition;
+    public bool inBattleMode { get; private set; }
 
 
-    public Transform player {  get; private set; } 
-    public NavMeshAgent agent {  get; private set; }    
+    public Transform player { get; private set; }
+    public NavMeshAgent agent { get; private set; }
     public EnemyStateMachine stateMachine { get; private set; }
-    public Animator anim{ get; private set; }  
+    public Animator anim { get; private set; }
 
-     
+
     protected virtual void Awake()
     {
         stateMachine = new EnemyStateMachine();
@@ -38,71 +39,106 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Start()
     {
-        foreach (Transform t in patrolPoints)
-        {
-            t.parent = null;
-        }
+        InitializePatrolPoints();
     }
+
 
     protected virtual void Update()
     {
 
     }
 
+    protected bool ShouldEnterBattleMode()
+    {
+        bool inAgressionRange = Vector3.Distance(transform.position, player.position) < aggresionRange;
+
+        if (inAgressionRange && !inBattleMode)
+        {
+            EnterBattleMode();
+            return true;
+        }
+
+        return false;
+    }
+
+    public virtual void EnterBattleMode()
+    {
+        inBattleMode = true;
+    }
     public virtual void GetHit()
     {
+        EnterBattleMode();
         healthPoints--;
     }
 
-    public virtual void HitImpact(Vector3 force,Vector3 hitPoint,Rigidbody rb)
+    public virtual void DeathImpact(Vector3 force, Vector3 hitPoint, Rigidbody rb)
     {
-        StartCoroutine(HitImpactCoroutine(force, hitPoint, rb));
+        StartCoroutine(DeathImpactCoroutine(force, hitPoint, rb));
     }
 
-    IEnumerator HitImpactCoroutine(Vector3 force, Vector3 hitPoint, Rigidbody rb)
+    IEnumerator DeathImpactCoroutine(Vector3 force, Vector3 hitPoint, Rigidbody rb)
     {
         yield return new WaitForSeconds(.1f);
 
-        rb.AddForceAtPosition(force, hitPoint,ForceMode.Impulse);
-    }
-    protected virtual void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(transform.position, aggresionRange);
-       
+        rb.AddForceAtPosition(force, hitPoint, ForceMode.Impulse);
     }
 
-    public void ActivateManualMovement(bool manualMovement) => this.manualMovement = manualMovement;
-    public bool ManualMovementActive() => manualMovement;
-
-    public void ActivateManualRotation (bool manualRotation) => this.manualRotation= manualRotation;
-    public bool ManualRotationActive() => manualRotation;
-    public void AnimationTrigger() => stateMachine.currentState.AnimationTrigger();
-
-    public bool PlayerInAggressionRange() => Vector3.Distance(transform.position,player.position) < aggresionRange;
-
-   
-    public Vector3 GetPatrolDestination()
-    {
-        Vector3 destination = patrolPoints[currentPatrolIndex].transform.position;
-
-        currentPatrolIndex++;
-        if (currentPatrolIndex >= patrolPoints.Length)
-        {
-            currentPatrolIndex = 0;
-        }
-        return destination;
-    }
-
-    public Quaternion FaceTarget(Vector3 target)
+    public void FaceTarget(Vector3 target)
     {
         Quaternion targetRotation = Quaternion.LookRotation(target - transform.position);
 
         Vector3 currentEulerAngles = transform.rotation.eulerAngles;
 
-        float yRotation = Mathf.LerpAngle(currentEulerAngles.y, targetRotation.eulerAngles.y , turnSpeed * Time.deltaTime);
+        float yRotation = Mathf.LerpAngle(currentEulerAngles.y, targetRotation.eulerAngles.y, turnSpeed * Time.deltaTime);
 
-        return Quaternion.Euler(currentEulerAngles.x,yRotation, currentEulerAngles.z);
+        transform.rotation = Quaternion.Euler(currentEulerAngles.x, yRotation, currentEulerAngles.z);
 
 
     }
+
+    #region Animation events
+    public void ActivateManualMovement(bool manualMovement) => this.manualMovement = manualMovement;
+    public bool ManualMovementActive() => manualMovement;
+
+    public void ActivateManualRotation(bool manualRotation) => this.manualRotation = manualRotation;
+    public bool ManualRotationActive() => manualRotation;
+    public void AnimationTrigger() => stateMachine.currentState.AnimationTrigger();
+    public virtual void AbilityTrigger()
+    {
+        stateMachine.currentState.AbilityTrigger();
+    }
+    #endregion
+
+    #region Patrol logic
+    private void InitializePatrolPoints()
+    {
+        patrolPointsPosition = new Vector3[patrolPoints.Length];
+
+        for (int i = 0; i < patrolPoints.Length; i++)
+        {
+            patrolPointsPosition[i] = patrolPoints[i].position;
+            patrolPoints[i].gameObject.SetActive(false);
+        }
+    }
+
+
+    public Vector3 GetPatrolDestination()
+    {
+        Vector3 destination = patrolPointsPosition[currentPatrolIndex];
+
+        currentPatrolIndex++;
+
+        if (currentPatrolIndex >= patrolPoints.Length)
+            currentPatrolIndex = 0;
+
+        return destination;
+    }
+
+    #endregion
+    protected virtual void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, aggresionRange);
+
+    }
+
 }

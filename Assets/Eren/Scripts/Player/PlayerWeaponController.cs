@@ -38,7 +38,7 @@ public class PlayerWeaponController : MonoBehaviour
 
         aim = player.aim.Aim();
         
-        Invoke("EquipStartingWeapon",.1f);
+        Invoke(nameof(EquipStartingWeapon),.1f);
     }
 
     private void EquipStartingWeapon() 
