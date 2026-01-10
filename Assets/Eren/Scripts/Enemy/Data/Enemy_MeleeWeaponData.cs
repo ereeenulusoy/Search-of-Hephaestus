@@ -6,5 +6,5 @@ using UnityEngine;
 public class Enemy_MeleeWeaponData : ScriptableObject
 {
     public List<MeleeAttackData> attackData;
-    public float turnSpeed = 10;
+    //public float turnSpeed = 10;
 }

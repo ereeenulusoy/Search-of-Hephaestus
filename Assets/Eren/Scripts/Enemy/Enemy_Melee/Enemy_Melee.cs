@@ -110,7 +110,7 @@ public class Enemy_Melee : Enemy
         if (currentWeapon != null)
         {
             attackList = new List<MeleeAttackData>(currentWeapon.weaponData.attackData);   
-            turnSpeed = currentWeapon.weaponData.turnSpeed; 
+            //turnSpeed = currentWeapon.weaponData.turnSpeed; 
         }
     }
     private void InitializePerk()
