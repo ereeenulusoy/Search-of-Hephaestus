@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
-public struct MeleeAttackData
+public struct AttackData_EnemyMelee
 {
     public string attackName;
     public float attackRange;
@@ -49,8 +49,8 @@ public class Enemy_Melee : Enemy
     public Transform axeStartPoint;
 
     [Header("Attack Data")]
-    public MeleeAttackData attackData;
-    public List<MeleeAttackData> attackList;
+    public AttackData_EnemyMelee attackData;
+    public List<AttackData_EnemyMelee> attackList;
 
 
     protected override void Awake()
@@ -107,10 +107,10 @@ public class Enemy_Melee : Enemy
     {
         Enemy_WeaponModel currentWeapon = visuals.currentWeaponModel.GetComponent<Enemy_WeaponModel>();
 
-        if (currentWeapon != null)
+        if (currentWeapon.weaponData != null)
         {
-            attackList = new List<MeleeAttackData>(currentWeapon.weaponData.attackData);   
-            //turnSpeed = currentWeapon.weaponData.turnSpeed; 
+            attackList = new List<AttackData_EnemyMelee>(currentWeapon.weaponData.attackData);   
+            turnSpeed = currentWeapon.weaponData.turnSpeed; 
         }
     }
     private void InitializePerk()
@@ -126,6 +126,10 @@ public class Enemy_Melee : Enemy
             shieldTransform.gameObject.SetActive(true);
             visuals.SetupWeaponType(Enemy_MeleeWeaponType.OneHand);
 
+        }
+        if (meleeType == EnemyMelee_Type.Dodge)
+        {
+            visuals.SetupWeaponType(Enemy_MeleeWeaponType.Unarmed);
         }
     }
 

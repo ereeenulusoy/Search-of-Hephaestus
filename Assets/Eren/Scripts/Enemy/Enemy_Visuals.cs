@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-public enum Enemy_MeleeWeaponType { OneHand, Throw, }
+public enum Enemy_MeleeWeaponType { OneHand, Throw, Unarmed }
 public class Enemy_Visuals : MonoBehaviour
 {
     [Header("Weapon")]
@@ -47,15 +47,29 @@ public class Enemy_Visuals : MonoBehaviour
 
         foreach (var weaponModel in weaponModels)
         {
-            if(weaponModel.weaponType == weaponType)
+            if (weaponModel.weaponType == weaponType)
                 filteredWeaponModels.Add(weaponModel);
         }
 
         int randomIndex = Random.Range(0, filteredWeaponModels.Count);
-        
+
         currentWeaponModel = filteredWeaponModels[randomIndex].gameObject;
-        filteredWeaponModels[randomIndex].gameObject.SetActive(true);
+        currentWeaponModel.gameObject.SetActive(true);
+       
+        OverrideAnimatorControllerIfCan();
+
     }
+
+    private void OverrideAnimatorControllerIfCan()
+    {
+        AnimatorOverrideController overrideController = currentWeaponModel.GetComponent<Enemy_WeaponModel>().overrideController;
+
+        if (overrideController != null)
+        {
+            GetComponentInChildren<Animator>().runtimeAnimatorController = overrideController;
+        }
+    }
+
     private void SetupRandomColor()
     {
         int randomIndex = Random.Range(0, colorTexture.Length); 
