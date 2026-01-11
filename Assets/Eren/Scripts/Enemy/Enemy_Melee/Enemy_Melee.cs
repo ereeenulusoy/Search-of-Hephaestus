@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -43,7 +41,7 @@ public class Enemy_Melee : Enemy
     [Header("Axe Throw Ability")]
     public GameObject axePrefab;
     public float axeFlySpeed;
-    public float axeTimer;
+    public float axeAimTimer;
     public float axeThrowCooldown;
     private float lastTimeAxeThrown;
     public Transform axeStartPoint;
@@ -80,10 +78,6 @@ public class Enemy_Melee : Enemy
         base.Update();
 
         stateMachine.currentState.Update();
-
-        if (ShouldEnterBattleMode())
-            EnterBattleMode();
-        
 
     }
 
@@ -137,12 +131,8 @@ public class Enemy_Melee : Enemy
     {
         base.GetHit();
 
-        if(healthPoints <=0)
+        if(healthPoints <=0 && stateMachine.currentState != deadState)
          stateMachine.ChangeState(deadState);
-    }
-    public void EnableWeaponModel(bool active)
-    {   
-       visuals.currentWeaponModel.gameObject.SetActive(active);
     }
     public void ActivateDodgeRoll()
     {
@@ -164,7 +154,17 @@ public class Enemy_Melee : Enemy
             anim.SetTrigger("Dodge");
         }
     }
+    public void EnableWeaponModel(bool active)
+    {   
+       visuals.currentWeaponModel.gameObject.SetActive(active);
+    }
 
+    public void ThrowAxe()
+    {
+        GameObject newAxe = ObjectPool.instance.GetObject(axePrefab, axeStartPoint);
+
+        newAxe.GetComponent<Enemy_Axe>().AxeSetup(axeFlySpeed, player, axeAimTimer);
+    }
     public bool CanThrowAxe()
     {
         if(meleeType != EnemyMelee_Type.Thrower)

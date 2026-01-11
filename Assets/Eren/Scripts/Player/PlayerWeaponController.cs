@@ -159,9 +159,8 @@ public class PlayerWeaponController : MonoBehaviour
 
         player.visual.CurrentWeaponModel().fireSFX.Play();
 
-        GameObject newBullet = ObjectPool.instance.GetObject(bulletPrefab);
+        GameObject newBullet = ObjectPool.instance.GetObject(bulletPrefab, GunPoint());
 
-        newBullet.transform.position = gunPoint.position;
         newBullet.transform.rotation = Quaternion.LookRotation(gunPoint.forward);
 
         Rigidbody rbNewBullet = newBullet.GetComponent<Rigidbody>();
@@ -196,7 +195,7 @@ public class PlayerWeaponController : MonoBehaviour
     }
     public Vector3 BulletDirection()
     {
-        Vector3 direction = (aim.position - gunPoint.position).normalized;
+        Vector3 direction = (aim.position - GunPoint().position).normalized;
        
         if(!player.aim.GetIsAimPricesly() && player.aim.Target() == null)
         direction.y = 0;

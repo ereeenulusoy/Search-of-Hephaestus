@@ -2,79 +2,116 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float impactForce;
-    
+    private float impactForce;
+
     private BoxCollider cd;
     private Rigidbody rb;
     private MeshRenderer meshRenderer;
+
+    // Opsiyonel Görseller (Biri olabilir, ikisi de olabilir)
     private TrailRenderer trailRenderer;
+    private ParticleSystem ps;
 
     [SerializeField] private GameObject bulletImpactVfx;
 
     private Vector3 startPosition;
     private float flyDistance;
-    private bool bulletDisabled = false;
+    private bool bulletDisabled;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         cd = GetComponent<BoxCollider>();
         rb = GetComponent<Rigidbody>();
         meshRenderer = GetComponent<MeshRenderer>();
+
+        // Varsa bileþenleri al, yoksa null kalýr
         trailRenderer = GetComponent<TrailRenderer>();
+        ps = GetComponentInChildren<ParticleSystem>(); // VFX genelde child objede olur
     }
-    public void BulletSetup(float flyDistance, float impactForce)
+
+    public void BulletSetup(float flyDistance = 100, float impactForce = 100)
     {
-        bulletDisabled = false;
-        cd.enabled = true;
-        meshRenderer.enabled = true;
-
-        //trailRenderer.Clear(); LAZIM OLURSA BÝ BAK.
-        trailRenderer.time = .2f;
-
         this.impactForce = impactForce;
+
+        bulletDisabled = false;
+
+        if (cd != null) cd.enabled = true;
+        if (meshRenderer != null) meshRenderer.enabled = true;
+
+        // Trail varsa sýfýrla
+        if (trailRenderer != null)
+        {
+            trailRenderer.Clear();
+            trailRenderer.time = 0.2f;
+        }
+
+        // Particle System varsa sýfýrla ve oynat
+        if (ps != null)
+        {
+            ps.Clear(); // Eskileri sil
+            ps.Play();  // Yeniden baþlat
+        }
 
         startPosition = transform.position;
         this.flyDistance = flyDistance;
-
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         FadeTrails();
         DisableBullet();
         ReturnBulletsToPool();
-
     }
 
-    private void ReturnBulletsToPool()
+    // Enemy_Bullet tarafýndan ezilebilsin diye 'virtual' yaptýk
+    protected void ReturnBulletsToPool()
     {
-        if (trailRenderer.time <= 0)
+        // Mermi görevini bitirdiyse (menzili aþtýysa)...
+        if (bulletDisabled)
+        {
+            // 1. Trail varsa ve sönmediyse bekle
+            if (trailRenderer != null && trailRenderer.time > 0) return;
+
+            // 2. Alev topu varsa ve sönmediyse bekle (IsAlive true ise yaþýyordur)
+            if (ps != null && ps.IsAlive(true)) return;
+
+            // Hepsi bittiyse havuza dön
             ReturnBulletToPool();
+        }
     }
 
-    private void DisableBullet()
+    protected void DisableBullet()
     {
+        // Menzil kontrolü
         if (Vector3.Distance(startPosition, transform.position) > flyDistance && !bulletDisabled)
         {
-            cd.enabled = false;
-            meshRenderer.enabled = false;
+            if (cd != null) cd.enabled = false;
+            if (meshRenderer != null) meshRenderer.enabled = false;
+
+            // Alev topu varsa yeni üretim yapmasýn ama var olanlar süzülsün
+            if (ps != null) ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+
             bulletDisabled = true;
         }
     }
 
-    private void FadeTrails()
+    protected void FadeTrails()
     {
-        if (Vector3.Distance(startPosition, transform.position) > flyDistance - 1.5f)
-            trailRenderer.time -= 2 * Time.deltaTime;
+        // Sadece TrailRenderer varsa çalýþýr
+        if (trailRenderer != null)
+        {
+            if (Vector3.Distance(startPosition, transform.position) > flyDistance - 1.5f)
+                trailRenderer.time -= 2 * Time.deltaTime;
+        }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    protected virtual void OnCollisionEnter(Collision collision)
     {
-        CreateImpactFX(collision);
-        ReturnBulletToPool();
+        CreateImpactFX();
+        ReturnBulletToPool(); // Çarpýnca hemen dön
 
         Enemy enemy = collision.gameObject.GetComponentInParent<Enemy>();
-        EnemyShield shield = collision.gameObject.GetComponent<EnemyShield>();
+        Enemy_Shield shield = collision.gameObject.GetComponent<Enemy_Shield>();
 
         if (shield != null)
         {
@@ -89,22 +126,16 @@ public class Bullet : MonoBehaviour
             enemy.GetHit();
             enemy.DeathImpact(force, collision.contacts[0].point, hitRigidbody);
         }
-        
     }
 
-    private void ReturnBulletToPool() => ObjectPool.instance.ReturnObject(gameObject);
+    protected void ReturnBulletToPool() => ObjectPool.instance.ReturnObject(gameObject);
 
-    private void CreateImpactFX(Collision collision)
+    protected void CreateImpactFX()
     {
-        if (collision.contacts.Length > 0)// çarpýlan yüzey sayýsý 0'dan büyükse
+        if (bulletImpactVfx != null)
         {
-            ContactPoint contact = collision.contacts[0];//List yapýyor.
-            GameObject newImpactFx = ObjectPool.instance.GetObject(bulletImpactVfx);
-               
-            newImpactFx.transform.position = contact.point;
-            newImpactFx.transform.rotation = Quaternion.LookRotation(contact.normal);
-
-            ObjectPool.instance.ReturnObject(newImpactFx , 1);
+            GameObject newImpactFx = ObjectPool.instance.GetObject(bulletImpactVfx, transform);
+            ObjectPool.instance.ReturnObject(newImpactFx, 1);
         }
     }
 }

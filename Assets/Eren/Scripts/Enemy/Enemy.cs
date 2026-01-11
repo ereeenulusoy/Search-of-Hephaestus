@@ -28,10 +28,13 @@ public class Enemy : MonoBehaviour
     public EnemyStateMachine stateMachine { get; private set; }
     public Animator anim { get; private set; }
 
+    public Enemy_Ragdoll ragdoll { get; private set; }
+
 
     protected virtual void Awake()
     {
         stateMachine = new EnemyStateMachine();
+        ragdoll = GetComponent<Enemy_Ragdoll>();
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
         player = GameObject.Find("Player").GetComponent<Transform>();
@@ -45,7 +48,8 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Update()
     {
-
+        if (ShouldEnterBattleMode())
+            EnterBattleMode();
     }
 
     protected bool ShouldEnterBattleMode()
@@ -97,6 +101,11 @@ public class Enemy : MonoBehaviour
     }
 
     #region Animation events
+    public virtual void AnimationSpecialAttackTrigger()
+    {
+
+    }
+    
     public void ActivateManualMovement(bool manualMovement) => this.manualMovement = manualMovement;
     public bool ManualMovementActive() => manualMovement;
 
