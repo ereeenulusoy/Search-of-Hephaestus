@@ -52,9 +52,11 @@ public class PlayerAim : MonoBehaviour
     {
         Transform target = null;
 
-        if (GetMouseHitInfo().transform.GetComponent<Target>() != null)
+        RaycastHit hitInfo = GetMouseHitInfo();
+
+        if (hitInfo.transform != null && hitInfo.transform.GetComponent<Target>() != null)
         {
-            target = GetMouseHitInfo().transform;
+            target = hitInfo.transform;
         }
 
         return target;

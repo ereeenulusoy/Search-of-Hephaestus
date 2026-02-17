@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     private bool canDash = true;
     public bool isDashing {  get; private set; }
     public bool isStillDashing {  get; private set; }
+    
     private void Start()
     {
         player = GetComponent<Player>();
