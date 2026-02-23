@@ -15,6 +15,8 @@ public class BattleState_Range : EnemyState
     public override void Enter()
     {
         base.Enter();
+        enemy.agent.isStopped = true;
+        enemy.agent.velocity = Vector3.zero;
     }
 
     public override void Exit()
